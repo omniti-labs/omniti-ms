@@ -1,0 +1,6 @@
+<<<<<<< HEAD
+extra-CMakeLists.patch
+ssl-CMakeLists.patch
+=======
+perfschema_dtrace.patch
+>>>>>>> 1ff8496e48a6c42a611734f7a2e74d61a96c2871
