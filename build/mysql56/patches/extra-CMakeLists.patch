@@ -1,0 +1,10 @@
+--- mysql-5.6.25/extra/CMakeLists.txt.orig	Fri Jul 24 20:18:38 2015
++++ mysql-5.6.25/extra/CMakeLists.txt	Fri Jul 24 20:21:19 2015
+@@ -82,6 +82,7 @@
+ 
+ MYSQL_ADD_EXECUTABLE(replace replace.c)
+ TARGET_LINK_LIBRARIES(replace mysys)
++TARGET_LINK_LIBRARIES(replace "-lsocket")
+ 
+ IF(WITH_INNOBASE_STORAGE_ENGINE)
+   # Add path to the InnoDB headers

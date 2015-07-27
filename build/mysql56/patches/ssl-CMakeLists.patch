@@ -1,0 +1,10 @@
+--- mysql-5.6.25/mysys_ssl/CMakeLists.txt.orig	Fri Jul 24 20:24:24 2015
++++ mysql-5.6.25/mysys_ssl/CMakeLists.txt	Fri Jul 24 20:24:32 2015
+@@ -60,7 +60,6 @@
+ 
+ ADD_CONVENIENCE_LIBRARY(mysys_ssl ${MYSYS_SSL_SOURCES})
+ TARGET_LINK_LIBRARIES(mysys_ssl dbug strings ${SSL_LIBRARIES} ${ZLIB_LIBRARY})
+-DTRACE_INSTRUMENT(mysys_ssl)
+ 
+ IF(MSVC)
+    INSTALL_DEBUG_TARGET(mysys_ssl DESTINATION ${INSTALL_LIBDIR}/debug)
