@@ -1,0 +1,177 @@
+=== modified file 'mysql-5.6.24/CMakeLists.txt'
+--- mysql-5.6.24/CMakeLists.txt	2013-06-25 13:13:06 +0000
++++ mysql-5.6.24/CMakeLists.txt	2013-07-08 14:19:34 +0000
+@@ -207,6 +207,7 @@
+   SET(WITHOUT_DYNAMIC_PLUGINS 1)
+ ENDIF()
+ OPTION(ENABLED_PROFILING "Enable profiling" ON)
++OPTION(ENABLE_DTRACE "Include support for DTrace probes" OFF)
+ OPTION(CYBOZU "" OFF)
+ OPTION(BACKUP_TEST "" OFF)
+ OPTION(WITHOUT_SERVER OFF)
+=== modified file 'mysql-5.6.24/cmake/dtrace.cmake'
+--- mysql-5.6.24/cmake/dtrace.cmake	2013-05-12 06:24:46 +0000
++++ mysql-5.6.24/cmake/dtrace.cmake	2013-07-08 14:19:34 +0000
+@@ -35,10 +35,11 @@
+  MARK_AS_ADVANCED(DTRACE)
+ 
+  # On FreeBSD, dtrace does not handle userland tracing yet
+- IF(DTRACE AND NOT CMAKE_SYSTEM_NAME MATCHES "FreeBSD"
+-     AND NOT BUGGY_GCC_NO_DTRACE_MODULES)
+-   SET(ENABLE_DTRACE ON CACHE BOOL "Enable dtrace")
++ IF(ENABLE_DTRACE AND (CMAKE_SYSTEM_NAME MATCHES "FreeBSD"
++    OR BUGGY_GCC_NO_DTRACE_MODULES OR NOT DTRACE))
++  MESSAGE(FATAL_ERROR "dtrace is not supported on this system")
+  ENDIF()
++
+  SET(HAVE_DTRACE ${ENABLE_DTRACE})
+  IF(CMAKE_SYSTEM_NAME MATCHES "SunOS")
+    IF(CMAKE_SIZEOF_VOID_P EQUAL 4)
+=== modified file 'mysql-5.6.24/cmake/plugin.cmake'
+--- mysql-5.6.24/cmake/plugin.cmake	2013-02-26 05:45:28 +0000
++++ mysql-5.6.24/cmake/plugin.cmake	2013-07-08 14:19:34 +0000
+@@ -21,6 +21,7 @@
+ # [STORAGE_ENGINE]
+ # [MANDATORY|DEFAULT]
+ # [STATIC_ONLY|DYNAMIC_ONLY]
++# [DTRACE_INSTRUMENTED]
+ # [MODULE_OUTPUT_NAME module_name]
+ # [STATIC_OUTPUT_NAME static_name]
+ # [RECOMPILE_FOR_EMBEDDED]
+@@ -47,7 +48,7 @@
+ MACRO(MYSQL_ADD_PLUGIN)
+   MYSQL_PARSE_ARGUMENTS(ARG
+     "LINK_LIBRARIES;DEPENDENCIES;MODULE_OUTPUT_NAME;STATIC_OUTPUT_NAME"
+-    "STORAGE_ENGINE;STATIC_ONLY;MODULE_ONLY;MANDATORY;DEFAULT;DISABLED;RECOMPILE_FOR_EMBEDDED"
++    "STORAGE_ENGINE;STATIC_ONLY;MODULE_ONLY;MANDATORY;DEFAULT;DISABLED;RECOMPILE_FOR_EMBEDDED;DTRACE_INSTRUMENTED"
+     ${ARGN}
+   )
+   
+@@ -116,7 +117,9 @@
+   IF (WITH_${plugin} AND NOT ARG_MODULE_ONLY)
+     ADD_LIBRARY(${target} STATIC ${SOURCES})
+     SET_TARGET_PROPERTIES(${target} PROPERTIES COMPILE_DEFINITONS "MYSQL_SERVER")
+-    DTRACE_INSTRUMENT(${target})
++    IF (ARG_DTRACE_INSTRUMENTED)
++      DTRACE_INSTRUMENT(${target})
++    ENDIF()
+     ADD_DEPENDENCIES(${target} GenError ${ARG_DEPENDENCIES})
+     IF(WITH_EMBEDDED_SERVER)
+       # Embedded library should contain PIC code and be linkable
+@@ -124,7 +127,9 @@
+       IF(ARG_RECOMPILE_FOR_EMBEDDED OR NOT _SKIP_PIC)
+         # Recompile some plugins for embedded
+         ADD_CONVENIENCE_LIBRARY(${target}_embedded ${SOURCES})
+-        DTRACE_INSTRUMENT(${target}_embedded)   
++        IF (ARG_DTRACE_INSTRUMENTED)
++          DTRACE_INSTRUMENT(${target}_embedded)
++        ENDIF()
+         IF(ARG_RECOMPILE_FOR_EMBEDDED)
+           SET_TARGET_PROPERTIES(${target}_embedded 
+             PROPERTIES COMPILE_DEFINITIONS "MYSQL_SERVER;EMBEDDED_LIBRARY")
+@@ -170,7 +175,9 @@
+ 
+     ADD_VERSION_INFO(${target} MODULE SOURCES)
+     ADD_LIBRARY(${target} MODULE ${SOURCES}) 
+-    DTRACE_INSTRUMENT(${target})
++    IF (ARG_DTRACE_INSTRUMENTED)
++      DTRACE_INSTRUMENT(${target})
++    ENDIF()
+     SET_TARGET_PROPERTIES (${target} PROPERTIES PREFIX ""
+       COMPILE_DEFINITIONS "MYSQL_DYNAMIC_PLUGIN")
+     TARGET_LINK_LIBRARIES (${target} mysqlservices)
+=== modified file 'mysql-5.6.24/mysys_ssl/CMakeLists.txt'
+--- mysql-5.6.24/mysys_ssl/CMakeLists.txt	2013-02-18 12:44:49 +0000
++++ mysql-5.6.24/mysys_ssl/CMakeLists.txt	2013-07-08 14:19:34 +0000
+@@ -47,4 +47,3 @@
+ 
+ ADD_CONVENIENCE_LIBRARY(mysys_ssl ${MYSYS_SSL_SOURCES})
+ TARGET_LINK_LIBRARIES(mysys_ssl dbug strings ${SSL_LIBRARIES} ${ZLIB_LIBRARY})
+-DTRACE_INSTRUMENT(mysys_ssl)
+=== modified file 'mysql-5.6.24/storage/archive/CMakeLists.txt'
+--- mysql-5.6.24/storage/archive/CMakeLists.txt	2011-09-07 10:08:09 +0000
++++ mysql-5.6.24/storage/archive/CMakeLists.txt	2013-07-08 14:19:34 +0000
+@@ -14,5 +14,6 @@
+ # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+ 
+ SET(ARCHIVE_SOURCES  azio.c ha_archive.cc ha_archive.h)
+-MYSQL_ADD_PLUGIN(archive ${ARCHIVE_SOURCES} STORAGE_ENGINE LINK_LIBRARIES ${ZLIB_LIBRARY})
++MYSQL_ADD_PLUGIN(archive ${ARCHIVE_SOURCES} STORAGE_ENGINE
++                 LINK_LIBRARIES ${ZLIB_LIBRARY} DTRACE_INSTRUMENTED)
+ 
+=== modified file 'mysql-5.6.24/storage/blackhole/CMakeLists.txt'
+--- mysql-5.6.24/storage/blackhole/CMakeLists.txt	2011-09-07 10:08:09 +0000
++++ mysql-5.6.24/storage/blackhole/CMakeLists.txt	2013-07-08 14:19:34 +0000
+@@ -14,4 +14,5 @@
+ # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+ 
+ SET(BLACKHOLE_SOURCES  ha_blackhole.cc ha_blackhole.h)
+-MYSQL_ADD_PLUGIN(blackhole ${BLACKHOLE_SOURCES} STORAGE_ENGINE)
++MYSQL_ADD_PLUGIN(blackhole ${BLACKHOLE_SOURCES} STORAGE_ENGINE
++                 DTRACE_INSTRUMENTED)
+=== modified file 'mysql-5.6.24/storage/csv/CMakeLists.txt'
+--- mysql-5.6.24/storage/csv/CMakeLists.txt	2011-09-07 10:08:09 +0000
++++ mysql-5.6.24/storage/csv/CMakeLists.txt	2013-07-08 14:19:34 +0000
+@@ -17,4 +17,5 @@
+ SET(CSV_PLUGIN_MANDATORY TRUE)
+ 
+ SET(CSV_SOURCES  ha_tina.cc ha_tina.h transparent_file.cc transparent_file.h)
+-MYSQL_ADD_PLUGIN(csv ${CSV_SOURCES} STORAGE_ENGINE MANDATORY)
++MYSQL_ADD_PLUGIN(csv ${CSV_SOURCES} STORAGE_ENGINE
++                 MANDATORY DTRACE_INSTRUMENTED)
+=== modified file 'mysql-5.6.24/storage/example/CMakeLists.txt'
+--- mysql-5.6.24/storage/example/CMakeLists.txt	2011-09-07 10:08:09 +0000
++++ mysql-5.6.24/storage/example/CMakeLists.txt	2013-07-08 14:19:34 +0000
+@@ -15,4 +15,5 @@
+ 
+ SET(EXAMPLE_PLUGIN_DYNAMIC "ha_example")
+ SET(EXAMPLE_SOURCES ha_example.cc)
+-MYSQL_ADD_PLUGIN(example ${EXAMPLE_SOURCES} STORAGE_ENGINE MODULE_ONLY)
++MYSQL_ADD_PLUGIN(example ${EXAMPLE_SOURCES} STORAGE_ENGINE MODULE_ONLY
++                 DTRACE_INSTRUMENTED)
+=== modified file 'mysql-5.6.24/storage/federated/CMakeLists.txt'
+--- mysql-5.6.24/storage/federated/CMakeLists.txt	2011-09-07 10:08:09 +0000
++++ mysql-5.6.24/storage/federated/CMakeLists.txt	2013-07-08 14:19:34 +0000
+@@ -21,4 +21,5 @@
+  # mysqld and are optimized away by the linker.
+  SET(FEDERATED_SOURCES ${FEDERATED_SOURCES} ${CMAKE_SOURCE_DIR}/mysys/string.c)
+ ENDIF()
+-MYSQL_ADD_PLUGIN(federated ${FEDERATED_SOURCES} STORAGE_ENGINE)
++MYSQL_ADD_PLUGIN(federated ${FEDERATED_SOURCES} STORAGE_ENGINE
++                 DTRACE_INSTRUMENTED)
+=== modified file 'mysql-5.6.24/storage/heap/CMakeLists.txt'
+--- mysql-5.6.24/storage/heap/CMakeLists.txt	2013-05-10 09:39:17 +0000
++++ mysql-5.6.24/storage/heap/CMakeLists.txt	2013-07-08 14:19:34 +0000
+@@ -23,7 +23,8 @@
+ 				hp_dspace.c hp_record.c
+ 				hp_rrnd.c hp_rsame.c hp_scan.c hp_static.c hp_update.c hp_write.c)
+ 
+-MYSQL_ADD_PLUGIN(heap ${HEAP_SOURCES} STORAGE_ENGINE MANDATORY RECOMPILE_FOR_EMBEDDED)
++MYSQL_ADD_PLUGIN(heap ${HEAP_SOURCES} STORAGE_ENGINE MANDATORY
++                 RECOMPILE_FOR_EMBEDDED DTRACE_INSTRUMENTED)
+ 
+ IF(WITH_UNIT_TESTS)
+   ADD_EXECUTABLE(hp_test1 hp_test1.c)
+=== modified file 'mysql-5.6.24/storage/myisam/CMakeLists.txt'
+--- mysql-5.6.24/storage/myisam/CMakeLists.txt	2012-08-22 01:40:20 +0000
++++ mysql-5.6.24/storage/myisam/CMakeLists.txt	2013-07-08 14:19:34 +0000
+@@ -30,7 +30,8 @@
+ MYSQL_ADD_PLUGIN(myisam ${MYISAM_SOURCES} 
+   STORAGE_ENGINE 
+   MANDATORY 
+-  RECOMPILE_FOR_EMBEDDED)
++  RECOMPILE_FOR_EMBEDDED
++  DTRACE_INSTRUMENTED)
+ 
+ TARGET_LINK_LIBRARIES(myisam mysys)
+ 
+=== modified file 'mysql-5.6.24/storage/myisammrg/CMakeLists.txt'
+--- mysql-5.6.24/storage/myisammrg/CMakeLists.txt	2011-09-07 10:08:09 +0000
++++ mysql-5.6.24/storage/myisammrg/CMakeLists.txt	2013-07-08 14:19:34 +0000
+@@ -20,4 +20,5 @@
+ 				myrg_rprev.c myrg_rrnd.c myrg_rsame.c myrg_static.c myrg_update.c
+ 				myrg_write.c myrg_records.c)
+ 
+-MYSQL_ADD_PLUGIN(myisammrg ${MYISAMMRG_SOURCES} STORAGE_ENGINE MANDATORY RECOMPILE_FOR_EMBEDDED)
++MYSQL_ADD_PLUGIN(myisammrg ${MYISAMMRG_SOURCES} STORAGE_ENGINE MANDATORY
++                 RECOMPILE_FOR_EMBEDDED DTRACE_INSTRUMENTED)
