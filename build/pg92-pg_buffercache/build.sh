@@ -28,7 +28,8 @@
 . ../../lib/functions.sh
 
 PROG=postgresql
-VER=9.2.11
+# To build another version run "VER=9.2.11 ./build.sh"
+: ${VER:=9.2.13}
 VERHUMAN=$VER
 PKG=omniti/database/postgresql-${VER//./}/pg_buffercache
 DOWNLOADDIR=postgres
