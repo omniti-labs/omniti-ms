@@ -28,7 +28,7 @@
 . ../../lib/functions.sh
 
 PROG=pg_partman
-VER=2.0.0
+VER=2.1.0
 VERHUMAN=$VER
 : ${PGVER:=944}
 PKG=omniti/database/postgresql-${PGVER}/pg_partman
