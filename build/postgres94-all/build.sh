@@ -11,6 +11,7 @@ PGVER="94$MINOR"
 echo "Building postgresql-$PGVER and all extensions..."
 
 VER=$VER ../postgres94/build.sh
+sudo pkg install -g file:///export/home/vagrant/omnios-build/tmp.repo postgresql-$PGVER
 VER=$VER ../pg94-dblink/build.sh
 VER=$VER ../pg94-pg_stat_statements/build.sh
 PGVER=$PGVER ../pg94-pg_query_statsd/build.sh
