@@ -29,15 +29,20 @@
 
 PROG=freetype
 DOWNLOADDIR=freetype2
-VER=2.4.10
+VER=2.5.5
 VERHUMAN=$VER
 PKG=omniti/library/freetype2
 SUMMARY="A Free, High-Quality, and Portable Font Engine"
 DESC="$SUMMARY"
 
+# NOTE: When r151016 comes out, gcc-5-runtime is the actual package now.
+# '016 does contain a transitional gcc-4-runtime entry, but this should be
+# updated at that time.
 DEPENDS_IPS="system/library/gcc-4-runtime"
 
 export GNUMAKE=gmake
+LDFLAGS32=-R/opt/omni/lib
+LDFLAGS64=-R/opt/omni/lib/amd64
 
 init
 download_source $DOWNLOADDIR $PROG $VER
