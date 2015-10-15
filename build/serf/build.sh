@@ -28,30 +28,70 @@
 . ../../lib/functions.sh
 
 PROG=serf
-VER=1.2.1
+VER=1.3.8
 VERHUMAN=$VER   # Human-readable version
-#PVER=          # Branch (set in config.sh, override here if needed)
 PKG=omniti/library/serf
 SUMMARY="serf WebDav client library"
 DESC="$SUMMARY"
 
-BUILD_DEPENDS_IPS="developer/swig omniti/library/apr omniti/library/apr-util"
+BUILD_DEPENDS_IPS="developer/swig omniti/library/python-2/scons omniti/library/apr omniti/library/apr-util"
 DEPENDS_IPS="omniti/library/apr-util"
 
-CONFIGURE_OPTS_32="$CONFIGURE_OPTS_32
-    --includedir=/opt/omni/include/serf-1
-    --with-apr=/opt/omni/bin/$ISAPART/apr-1-config
-    --with-apr-util=/opt/omni/bin/$ISAPART/apu-1-config"
+PREFIX=/opt/omni
 
-CONFIGURE_OPTS_64="$CONFIGURE_OPTS_64
-    --includedir=/opt/omni/include/amd64/serf-1
-    --with-swig=/usr/bin/$ISAPART64/swig
-    --with-apr=/opt/omni/bin/$ISAPART64/apr-1-config
-    --with-apr-util=/opt/omni/bin/$ISAPART64/apu-1-config"
+SCONS="/opt/python26/bin/scons"
 
-CPPFLAGS32="-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE \
-    $CPPFLAGS32 -I/opt/omni/include"
-CPPFLAGS64="$CPPFLAGS64 -I/opt/omni/include/amd64" 
+GCC_PATH="/opt/gcc-4.8.1/bin/gcc"
+
+SCONS_CONFIG_FILE=".saved_config"
+
+scons_conf_32() {
+echo "PREFIX = '/opt/omni'
+LIBDIR = 'opt/omni/lib'
+APR = '/opt/omni/bin/i386/apr-1-config'
+APU = '/opt/omni/bin/i386/apu-1-config'
+CC = ['/opt/gcc-4.8.1/bin/gcc']
+CFLAGS = ['-m32', '-fPIC']
+LINKFLAGS = ['-m32', '-L/opt/omni/lib', '-R/opt/omni/lib', '-fPIC', '-shared']
+CPPFLAGS = ['-D__EXTENSIONS__', '-L/opt/omni/lib', '-R/opt/omni/lib', '-D__EXTENSIONS__', '-D_LARGEFILE_SOURCE', '-D_FILE_OFFSET_BITS=64', '-D_LARGEFILE64_SOURCE']" > $SCONS_CONFIG_FILE
+}
+
+scons_conf_64() {
+echo "PREFIX = '/opt/omni'
+LIBDIR = 'opt/omni/lib/amd64'
+APR = '/opt/omni/bin/amd64/apr-1-config'
+APU = '/opt/omni/bin/amd64/apu-1-config'
+CC = ['/opt/gcc-4.8.1/bin/gcc']
+CFLAGS = ['-m64', '-fPIC']
+LINKFLAGS = ['-m64', '-L/opt/omni/lib/amd64', '-R/opt/omni/lib/amd64', '-fPIC', '-shared']
+CPPFLAGS = ['-D__EXTENSIONS__', '-L/opt/omni/lib/amd64', '-R/opt/omni/lib/amd64', ' -D__EXTENSIONS__']" > $SCONS_CONFIG_FILE
+}
+
+configure32() {
+    pushd $TMPDIR/$BUILDDIR > /dev/null
+    scons_conf_32
+    logcmd $SCONS || \
+        logerr "--- Configure failed"
+}
+configure64() {
+    pushd $TMPDIR/$BUILDDIR > /dev/null
+    scons_conf_64
+    logcmd $SCONS || \
+        logerr "--- Configure failed"
+}
+make_prog() {
+    logmsg "--- make (noop)"
+}
+make_install() {
+    logmsg "--- scons install"
+    logcmd $SCONS install --install-sandbox=$DESTDIR || \
+        logerr "--- scons install failed"
+}
+make_clean() {
+    logmsg "--- scons clean"
+    logcmd $SCONS --clean || \
+        logmsg "--- *** WARNING *** scons clean Failed"
+}
 
 init
 download_source $PROG $PROG $VER
