@@ -28,19 +28,25 @@
 . ../../lib/functions.sh
 
 PROG=go
-VER=1.3
+VER=1.5.1
 VERHUMAN=$VER   # Human-readable version
 #PVER=          # Branch (set in config.sh, override here if needed)
 PKG=omniti/runtime/go
 SUMMARY="An open source programming language."
 DESC=$SUMMARY
 
+BUILD_DEPENDS_IPS="developer/pkg-config omniti/runtime/go@1.4 developer/versioning/mercurial"
+
 # Tricks so we can make the installation land in the right place.
 export GOROOT_FINAL=/opt/go
 
+export GOROOT_BOOTSTRAP=/opt/go
+
+export GOPATH="$DESTDIR/opt/go"
+
 make_clean() {
     cd $TMPDIR/$BUILDDIR/src
-    logcmd ./clean.bash
+    logcmd  ./clean.bash
     cd ..
 }
 configure32() {
@@ -63,7 +69,7 @@ configure64() {
 make_prog64() {
     logmsg "Making libraries (64)"
     cd $TMPDIR/$BUILDDIR/src
-    logcmd ./all.bash || logerr "build failed"
+    logcmd  ./all.bash || logerr "build failed"
     cd ..
 }
 
@@ -73,8 +79,8 @@ make_install64() {
     # For packaging purposes...
     ln -s $DESTDIR/opt/go $TMPDIR/$BUILDDIR
     # Required packages:  godoc and vet
-    GOROOT=$DESTDIR/opt/go $DESTDIR/opt/go/bin/amd64/go get code.google.com/p/go.tools/cmd/godoc
-    GOROOT=$DESTDIR/opt/go $DESTDIR/opt/go/bin/amd64/go get code.google.com/p/go.tools/cmd/vet
+    GOROOT=$DESTDIR/opt/go $DESTDIR/opt/go/bin/go get code.google.com/p/go.tools/cmd/godoc
+    GOROOT=$DESTDIR/opt/go $DESTDIR/opt/go/bin/go get code.google.com/p/go.tools/cmd/vet
 }
 
 init
