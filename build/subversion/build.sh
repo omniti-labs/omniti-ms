@@ -28,7 +28,7 @@
 . ../../lib/functions.sh
 
 PROG=subversion
-VER=1.8.10
+VER=1.9.2
 VERHUMAN=$VER
 PKG=omniti/developer/versioning/subversion
 SUMMARY="$PROG - An Open-Source Revision Control System"
@@ -37,11 +37,11 @@ DESC="$SUMMARY"
 #NEON=neon
 #NVER=0.29.0
 
-DEPENDS_IPS="database/sqlite-3@3.8 library/security/openssl@1.0.2 
-             omniti/library/apr@1.4 omniti/library/apr-util@1.4
+DEPENDS_IPS="database/sqlite-3 library/security/openssl
+             omniti/library/apr omniti/library/apr-util
              library/expat library/zlib system/library/gcc-4-runtime
              omniti/library/serf"
-BUILD_DEPENDS_IPS="$DEPENDS_IPS developer/swig omniti/server/apache22"
+BUILD_DEPENDS_IPS="$DEPENDS_IPS omniti/developer/swig omniti/server/apache22"
 
 CFLAGS32="-D__EXTENSIONS__ -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE"
 CPPFLAGS32="-D__EXTENSIONS__ -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE"
@@ -71,7 +71,7 @@ LDFLAGS32="$LDFLAGS32 \
     -L/opt/omni/lib -R/opt/omni/lib"
 
 LDFLAGS64="$LDFLAGS64 \
-    -L/opt/omni/lib/$ISAPART64 -R/opt/omni/lib/$ISAPART64"
+    -L/opt/omni/lib/amd64 -R/opt/omni/lib/amd64"
 
 # Extra script/file installs
 add_file() {

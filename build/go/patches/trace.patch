@@ -1,0 +1,11 @@
+--- go-1.5.1/src/runtime/trace.go.orig	Mon Oct 19 19:20:36 2015
++++ go-1.5.1/src/runtime/trace.go	Mon Oct 19 19:20:51 2015
+@@ -828,7 +828,7 @@
+ }
+ 
+ func traceGoSysCall() {
+-	traceEvent(traceEvGoSysCall, 4)
++	traceEvent(traceEvGoSysCall, 1)
+ }
+ 
+ func traceGoSysExit(seq uint64, ts int64) {

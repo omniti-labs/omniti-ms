@@ -1,0 +1,28 @@
+--- go-1.5.1/src/runtime/proc1.go.orig	Mon Oct 19 19:19:15 2015
++++ go-1.5.1/src/runtime/proc1.go	Mon Oct 19 19:20:28 2015
+@@ -1822,10 +1822,6 @@
+ 	// but can have inconsistent g->sched, do not let GC observe it.
+ 	_g_.m.locks++
+ 
+-	if trace.enabled {
+-		systemstack(traceGoSysCall)
+-	}
+-
+ 	// Entersyscall must not call any function that might split/grow the stack.
+ 	// (See details in comment above.)
+ 	// Catch calls that might, by replacing the stack guard with something that
+@@ -1845,6 +1841,14 @@
+ 		})
+ 	}
+ 
++	if trace.enabled {
++		systemstack(traceGoSysCall)
++		// systemstack itself clobbers g.sched.{pc,sp} and we might
++		// need them later when the G is genuinely blocked in a
++		// syscall
++		save(pc, sp)
++	}
++
+ 	if atomicload(&sched.sysmonwait) != 0 { // TODO: fast atomic
+ 		systemstack(entersyscall_sysmon)
+ 		save(pc, sp)

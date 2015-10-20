@@ -21,45 +21,30 @@
 # CDDL HEADER END
 #
 #
-# Copyright 2011-2012 OmniTI Computer Consulting, Inc.  All rights reserved.
+# Copyright 2015 OmniTI Computer Consulting, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Load support functions
 . ../../lib/functions.sh
 
-PROG=mimeo
-VER=1.3.7
+PROG=scons
+VER=2.4.0
 VERHUMAN=$VER
-: ${PGVER:=9213}
-PKG=omniti/database/postgresql-${PGVER}/mimeo
-SUMMARY="$PROG - Extension for specialized replication between PostgreSQL instances"
-DESC="$SUMMARY"
+PKG=omniti/library/python-2/scons
+SUMMARY="SCons Open Source software construction tool"
+DESC="SCons is an Open Source software construction tool"
 
-TAR=gtar
-DEPENDS_IPS="omniti/database/postgresql-$PGVER  omniti/database/postgresql-${PGVER}/dblink omniti/database/postgresql-${PGVER}/pg_jobmon"
-BUILD_DEPENDS_IPS="omniti/database/postgresql-$PGVER"
+BUILD_DEPENDS_IPS="omniti/runtime/python-26"
+DEPENDS_IPS="omniti/runtime/python-26"
 
+# omniti-ms python is 64-bit only
 BUILDARCH=64
-PREFIX=/opt/pgsql$PGVER
-PATH=$PREFIX/bin:$PATH
-
-configure64() {
-    logmsg "--- Skipping configure - not required"
-}
-
-export USE_PGXS=1
-make_install() {
-    make_param DESTDIR=${DESTDIR} prefix=$PREFIX install
-}
+PYTHON=/opt/python26/bin/python
 
 init
 download_source $PROG $PROG $VER
 patch_source
 prep_build
-build
-make_isa_stub
+python_build
 make_package
 clean_up
-
-# Vim hints
-# vim:ts=4:sw=4:et:
