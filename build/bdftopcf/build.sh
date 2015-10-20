@@ -38,7 +38,9 @@ DEPENDS_IPS="developer/pkg-config omniti/library/freetype2 omniti/X11/xproto omn
 BUILD_DEPENDS_IPS=$DEPENDS_IPS
 
 CFLAGS="-I/opt/omni/include"
-LDFLAGS="-L/opt/omni/lib"
+
+LDFLAGS="-L/opt/omni/lib -R/opt/omni/lib"
+LDFLAGS64="-L/opt/omni/lib/$ISAPART64 -R/opt/omni/lib/$ISAPART64"
 
 export PKG_CONFIG_PATH="/opt/omni/lib/pkgconfig:/opt/omni/share/pkgconfig"
 

@@ -39,6 +39,9 @@ BUILD_DEPENDS_IPS=$DEPENDS_IPS
 
 export PKG_CONFIG_PATH="/opt/omni/lib/pkgconfig:/opt/omni/share/pkgconfig"
 
+LDFLAGS="-L/opt/omni/lib -R/opt/omni/lib"
+LDFLAGS64="-L/opt/omni/lib/$ISAPART64 -R/opt/omni/lib/$ISAPART64"
+
 init
 download_source $PROG $PROG $VER
 patch_source

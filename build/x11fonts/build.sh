@@ -27,20 +27,42 @@
 # Load support functions
 . ../../lib/functions.sh
 
-PROG=libXfont
-VER=1.4.5
+PROG=x11fonts
+VER=1.0     
 VERHUMAN=$VER
-PKG=omniti/X11/libXfont
-SUMMARY="libXfont for X11"
+PKG=omniti/X11/x11fonts
+SUMMARY="Font pack for X11"
 DESC=$SUMMARY
-
-DEPENDS_IPS="developer/pkg-config omniti/library/freetype2 omniti/X11/xproto omniti/X11/xtrans omniti/X11/fontsproto omniti/X11/libfontenc" 
-BUILD_DEPENDS_IPS=$DEPENDS_IPS
-
-export PKG_CONFIG_PATH="/opt/omni/lib/pkgconfig:/opt/omni/share/pkgconfig"
 
 LDFLAGS="-L/opt/omni/lib -R/opt/omni/lib"
 LDFLAGS64="-L/opt/omni/lib/$ISAPART64 -R/opt/omni/lib/$ISAPART64"
+
+DEPENDS_IPS="developer/pkg-config omniti/library/freetype2 omniti/X11/bdftopcf omniti/X11/xproto omniti/X11/libXfont"
+BUILD_DEPENDS_IPS=$DEPENDS_IPS
+
+build32() {
+    pushd $TMPDIR/$BUILDDIR > /dev/null
+    for FONT in *; do
+      if [ -d "${FONT}" ]; then
+	export PKG_CONFIG_PATH="/opt/omni/lib/pkgconfig:/opt/omni/share/pkgconfig"
+	pushd $TMPDIR/$BUILDDIR/$FONT > /dev/null
+        logmsg "Building 32-bit ${FONT}"
+    	export ISALIST="$ISAPART"
+    	make_clean
+    	configure32
+    	make_prog32
+    	make_install32
+    	popd > /dev/null
+    	unset ISALIST
+    	export ISALIST
+      fi
+    done
+    popd > /dev/null
+}
+
+build64() {
+   logmsg "NOOP"
+}
 
 init
 download_source $PROG $PROG $VER
