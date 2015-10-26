@@ -175,6 +175,11 @@ case ${RELEASE:1} in
         GCC_CMD="/opt/gcc-4.8.1/bin/gcc"
         GCC_PKG="developer/gcc48"
         ;;
+    151016)
+        PATH="/opt/gcc-5.1.0/bin:$PATH"
+        GCC_CMD="/opt/gcc-5.1.0/bin/gcc"
+        GCC_PKG="developer/gcc51"
+        ;;
     *)
         logerr "Release $RELEASE not supported for omniti-ms"
         ;;
