@@ -4,7 +4,7 @@
 . ../../lib/functions.sh
 
 PROG=trafficserver
-VER=4.2.3
+VER=5.3.2
 PKG=omniti/server/trafficserver
 SUMMARY="Apache Traffic Server - HTTP cache"
 DESC="$SUMMARY"
