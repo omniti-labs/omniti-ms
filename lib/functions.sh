@@ -661,7 +661,7 @@ make_package() {
         echo "depend fmri=pkg:/entire@11-$PVER type=incorporate" >> $P5M_INT.stage1
     fi
     $PKGFMT -u < $P5M_INT.stage1 > $P5M_FINAL
-    logmsg "--- Publishing package"
+    logmsg "--- Publishing package to $PKGSRVR"
     if [[ -z "$BATCH" ]]; then
         ask_to_continue "Last chance to sanity-check before publication! "
     fi
