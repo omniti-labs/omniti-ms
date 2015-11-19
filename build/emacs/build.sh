@@ -28,7 +28,7 @@
 . ../../lib/functions.sh
 
 PROG=emacs
-VER=24.1
+VER=24.5
 VERHUMAN=$VER
 PKG=omniti/editor/emacs
 SUMMARY="GNU Emacs is an extensible, customizable text editor-- and more."
