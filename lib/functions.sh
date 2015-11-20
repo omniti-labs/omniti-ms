@@ -656,8 +656,17 @@ make_package() {
         $PKGDEPEND generate -d $DESTDIR $P5M_INT.stage1 > $P5M_INT.dep
         $PKGDEPEND resolve $P5M_INT.dep
         cat $P5M_INT.dep.res >> $P5M_INT.stage1
-        # Incorporate on entire so that a newer build for an earlier release 
-        # won't install on a later release.
+	# Use a "require" dependency on the 'entire' metapackage so that
+	# we don't let a later version for an unsupported early OmniOS install.
+	# For example:
+	#     foo@1.9-0.151006   exists.
+	# We update it to:
+	#     foo@1.10-0.151014
+	# and in both cases make it *require* entire@11-0.151XXX as appropriate.
+	# So foo@1.10 won't install on any OmniOS older than r151014.
+	# This used to be *incorporate* but that put both a floor AND a ceiling
+	# on the revision of OmniOS, and having just a floor is sufficient
+	# thanks to illumos's versioned libraries and backward compatibility.
         echo "depend fmri=pkg:/entire@11-$PVER type=require" >> $P5M_INT.stage1
     fi
     $PKGFMT -u < $P5M_INT.stage1 > $P5M_FINAL
