@@ -36,8 +36,9 @@ DESC="$SUMMARY"
 
 DEPENDS_IPS="omniti/library/libevent =omniti/library/libevent@2.0
              system/library/gcc-4-runtime"
+BUILD_DEPENDS_IPS="$DEPENDS_IPS"
 
-CONFIGURE_OPTS="$CONFIGURE_OPTS --with-libevent=/opt/omni"
+CONFIGURE_OPTS="$CONFIGURE_OPTS --with-libevent=/opt/omni --enable-dtrace"
 LDFLAGS32="$LDFLAGS32 -L/opt/omni/lib -R/opt/omni/lib"
 LDFLAGS64="$LDFLAGS64 -L/opt/omni/lib/$ISAPART64 -R/opt/omni/lib/$ISAPART64"
 

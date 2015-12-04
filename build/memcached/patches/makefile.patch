@@ -1,0 +1,19 @@
+--- Makefile.in.orig	Fri Dec  4 22:10:10 2015
++++ Makefile.in	Fri Dec  4 22:10:25 2015
+@@ -45,11 +45,11 @@
+ @ENABLE_SASL_TRUE@am__append_4 = sasl_defs.c
+ @BUILD_DTRACE_TRUE@am__append_5 = memcached_dtrace.h
+ @BUILD_DTRACE_TRUE@am__append_6 = memcached_dtrace.h
+-@DTRACE_INSTRUMENT_OBJ_TRUE@am__append_7 = memcached_dtrace.o
+-@DTRACE_INSTRUMENT_OBJ_TRUE@am__append_8 = memcached_dtrace.o
+-@DTRACE_INSTRUMENT_OBJ_TRUE@am__append_9 = memcached_debug_dtrace.o
+-@DTRACE_INSTRUMENT_OBJ_TRUE@am__append_10 = memcached_debug_dtrace.o
+-@DTRACE_INSTRUMENT_OBJ_TRUE@am__append_11 = memcached_dtrace.o memcached_debug_dtrace.o
++@BUILD_DTRACE_TRUE@am__append_7 = memcached_dtrace.o
++@BUILD_DTRACE_TRUE@am__append_8 = memcached_dtrace.o
++@BUILD_DTRACE_TRUE@am__append_9 = memcached_debug_dtrace.o
++@BUILD_DTRACE_TRUE@am__append_10 = memcached_debug_dtrace.o
++@BUILD_DTRACE_TRUE@am__append_11 = memcached_dtrace.o memcached_debug_dtrace.o
+ subdir = .
+ DIST_COMMON = $(am__configure_deps) $(pkginclude_HEADERS) \
+ 	$(srcdir)/Makefile.am $(srcdir)/Makefile.in \
