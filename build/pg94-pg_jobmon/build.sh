@@ -28,9 +28,9 @@
 . ../../lib/functions.sh
 
 PROG=pg_jobmon
-VER=1.3.0
+VER=1.3.1
 VERHUMAN=$VER
-: ${PGVER:=944}
+: ${PGVER:=945}
 PKG=omniti/database/postgresql-${PGVER}/pg_jobmon
 SUMMARY="$PROG - PostgreSQL Extension for logging and monitoring automated jobs"
 DESC="$SUMMARY"
