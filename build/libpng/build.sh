@@ -28,7 +28,7 @@
 . ../../lib/functions.sh
 
 PROG=libpng
-VER=1.5.24
+VER=1.5.26
 VERHUMAN=$VER
 PKG=omniti/library/libpng
 SUMMARY="$PROG - Portable Network Graphics Library"
