@@ -27,6 +27,9 @@
 # Load support functions
 . ../../lib/functions.sh
 
+# RUN THIS BUILD SCRIPT AS THE SMMSP USER
+# You may need to chown -R smmsp omniti-ms 
+
 PROG=milter-greylist 
 VER=4.4.3
 PKG=omniti/network/smtp/milter-greylist            # Package name (e.g. library/foo)
@@ -39,7 +42,7 @@ DEPENDS_IPS="service/network/smtp/sendmail"
 BUILDARCH=32
 NO_PARALLEL_MAKE=true
 
-CONFIGURE_OPTS="$CONFIGURE_OPTS --enable-spamassassin --enable-postfix --enable-dnsrbl --enable-mx --enable-stdio-hack --enable-p0f --enable-p0f3 --enable-p0f306"
+CONFIGURE_OPTS="$CONFIGURE_OPTS --enable-spamassassin --enable-postfix --enable-dnsrbl --enable-mx --enable-stdio-hack --enable-p0f --enable-p0f3 --enable-p0f306 --with-user=smmsp"
 
 install_manifest() {
     logmsg "Placing SMF manifest"
