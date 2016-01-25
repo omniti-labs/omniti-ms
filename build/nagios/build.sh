@@ -51,9 +51,11 @@ CPPFLAGS="-I/opt/omni/include"
 LDFLAGS32="$LDFLAGS32 -L/opt/omni/lib -R/opt/omni/lib"
 LDFLAGS64="$LDFLAGS64 -L/opt/omni/lib/$ISAPART64 -R/opt/omni/lib/$ISAPART64"
 
+group=`groups | awk '{print $1}'`
+
 CONFIGURE_OPTS="
     --with-nagios-user=$USER
-    --with-nagios-group=users
+    --with-nagios-group=$group
     --with-httpd-conf=$PREFIX/etc
     --with-htmurl=
     --with-cgiurl=/cgi-bin
