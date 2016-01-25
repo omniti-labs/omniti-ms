@@ -28,14 +28,14 @@
 . ../../lib/functions.sh
 
 PROG=nagios-plugins
-VER=1.4.13
+VER=2.1.1
 VERHUMAN=$VER
 PKG=omniti/monitoring/nagios/nagios-plugins
 SUMMARY="Plugins for running checks under Nagios"
 DESC="$SUMMARY"
 
-BUILD_DEPENDS_IPS="omniti/database/mysql-55/library omniti/network/fping omniti/runtime/perl omniti/incorporation/perl-516-incorporation"
-DEPENDS_IPS="omniti/database/mysql-55/library omniti/network/fping omniti/runtime/perl omniti/incorporation/perl-516-incorporation"
+BUILD_DEPENDS_IPS="omniti/database/mysql-55/library omniti/network/fping omniti/runtime/perl omniti/incorporation/perl-520-incorporation"
+DEPENDS_IPS="omniti/database/mysql-55/library omniti/network/fping omniti/runtime/perl omniti/incorporation/perl-520-incorporation"
 
 PREFIX=/opt/nagios
 reset_configure_opts
@@ -47,8 +47,10 @@ CFLAGS="-I/opt/omni/include"
 LDFLAGS32="$LDFLAGS32 -L/opt/omni/lib -R/opt/omni/lib"
 LDFLAGS64="$LDFLAGS64 -L/opt/omni/lib/$ISAPART64 -R/opt/omni/lib/$ISAPART64"
 
+group=`groups | awk '{print $1}'`
+
 CONFIGURE_OPTS="--with-nagios-user=$USER
-    --with-nagios-group=users
+    --with-nagios-group=$group
     --with-fping-command=/opt/omni/sbin/fping
     --without-ipv6
     --without-apt-get-command
