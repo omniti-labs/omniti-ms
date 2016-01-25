@@ -28,7 +28,7 @@
 . ../../lib/functions.sh
 
 PROG=nagios
-VER=3.0.6
+VER=4.1.1
 VERHUMAN=$VER
 PKG=omniti/monitoring/nagios
 SUMMARY="An Open Source system and network monitoring application"
@@ -41,8 +41,8 @@ reset_configure_opts
 PERLPATH32=/opt/OMNIperl/bin/$ISAPART
 PERLPATH64=/opt/OMNIperl/bin/$ISAPART64
 
-BUILD_DEPENDS_IPS="omniti/library/gd omniti/library/libjpeg omniti/library/libpng omniti/incorporation/perl-516-incorporation omniti/runtime/perl"
-DEPENDS_IPS="omniti/library/gd omniti/library/libjpeg omniti/library/libpng omniti/incorporation/perl-516-incorporation omniti/runtime/perl"
+BUILD_DEPENDS_IPS="omniti/library/gd omniti/library/libjpeg omniti/library/libpng omniti/incorporation/perl-520-incorporation omniti/runtime/perl"
+DEPENDS_IPS="omniti/library/gd omniti/library/libjpeg omniti/library/libpng omniti/incorporation/perl-520-incorporation omniti/runtime/perl"
 
 # Don't make a stub for p1.pl
 NOSCRIPTSTUB=1
