@@ -28,7 +28,7 @@
 . ../../lib/functions.sh
 
 PROG=postgresql
-VER=9.1.3
+VER=9.2.9
 VERHUMAN=$VER
 PKG=omniti/database/postgresql/client
 SUMMARY="PostgreSQL standalone client utilities"
