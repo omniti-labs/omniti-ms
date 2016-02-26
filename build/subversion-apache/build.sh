@@ -35,7 +35,7 @@ SUMMARY="$PROG - An Open-Source Revision Control System for Apache"
 DESC="$SUMMARY"
 
 NEON=neon
-NVER=0.29.0
+NVER=0.30.1
 BUILDARCH=64
 BUILD_DEPENDS_IPS="developer/swig omniti/server/apache22"
 DEPENDS_IPS="database/sqlite-3@3.7 library/security/openssl@1.0.1 
@@ -89,7 +89,11 @@ download_source() {
 
 prune() {
     logmsg "Pruning non-Apache bits"
-    logcmd rm -rf ${DESTDIR}/opt/omni
+    logcmd rm -rf ${DESTDIR}/opt/omni/bin
+    logcmd rm -rf ${DESTDIR}/opt/omni/etc
+    logcmd rm -rf ${DESTDIR}/opt/omni/share
+    logcmd rm -rf ${DESTDIR}/opt/omni/lib
+    logcmd rm -rf ${DESTDIR}/opt/omni/include
 }
 
 init
