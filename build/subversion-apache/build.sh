@@ -94,6 +94,7 @@ prune() {
     logcmd rm -rf ${DESTDIR}/opt/omni/share
     logcmd rm -rf ${DESTDIR}/opt/omni/lib
     logcmd rm -rf ${DESTDIR}/opt/omni/include
+    logcmd mv ${DESTDIR}/opt/omni ${DESTDIR}/opt/apache22
 }
 
 init
