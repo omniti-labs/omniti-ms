@@ -28,7 +28,7 @@
 . ../../lib/functions.sh
 
 PROG=mysql
-VER=5.5.43
+VER=5.5.48
 VERHUMAN=$VER
 
 BUILD_DEPENDS_IPS="omniti/developer/build/cmake system/library/g++-4-runtime system/library/gcc-4-runtime"
@@ -59,6 +59,7 @@ case $FLAVOR in
                            -DINSTALL_LIBDIR=lib/$ISAPART64
                            -DINSTALL_INCLUDEDIR=include/mysql"
         LOCAL_MOG_FILE=$SRCDIR/libs.mog
+        LDFLAGS="-lsocket -lnsl $LDFLAGS"
     ;;
 esac
 

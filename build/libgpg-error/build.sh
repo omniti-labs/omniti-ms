@@ -28,7 +28,7 @@
 . ../../lib/functions.sh
 
 PROG=libgpg-error
-VER=1.19
+VER=1.21
 VERHUMAN=$VER
 PKG=omniti/security/libgpg-error
 SUMMARY="Common error codes for GnuPG, libgcrypt"

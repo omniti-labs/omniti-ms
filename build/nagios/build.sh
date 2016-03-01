@@ -28,7 +28,7 @@
 . ../../lib/functions.sh
 
 PROG=nagios
-VER=3.0.6
+VER=4.1.1
 VERHUMAN=$VER
 PKG=omniti/monitoring/nagios
 SUMMARY="An Open Source system and network monitoring application"
@@ -41,8 +41,8 @@ reset_configure_opts
 PERLPATH32=/opt/OMNIperl/bin/$ISAPART
 PERLPATH64=/opt/OMNIperl/bin/$ISAPART64
 
-BUILD_DEPENDS_IPS="omniti/library/gd omniti/library/libjpeg omniti/library/libpng omniti/incorporation/perl-516-incorporation omniti/runtime/perl"
-DEPENDS_IPS="omniti/library/gd omniti/library/libjpeg omniti/library/libpng omniti/incorporation/perl-516-incorporation omniti/runtime/perl"
+BUILD_DEPENDS_IPS="omniti/library/gd omniti/library/libjpeg omniti/library/libpng omniti/incorporation/perl-520-incorporation omniti/runtime/perl"
+DEPENDS_IPS="omniti/library/gd omniti/library/libjpeg omniti/library/libpng omniti/incorporation/perl-520-incorporation omniti/runtime/perl"
 
 # Don't make a stub for p1.pl
 NOSCRIPTSTUB=1
@@ -51,9 +51,11 @@ CPPFLAGS="-I/opt/omni/include"
 LDFLAGS32="$LDFLAGS32 -L/opt/omni/lib -R/opt/omni/lib"
 LDFLAGS64="$LDFLAGS64 -L/opt/omni/lib/$ISAPART64 -R/opt/omni/lib/$ISAPART64"
 
+group=`groups | awk '{print $1}'`
+
 CONFIGURE_OPTS="
     --with-nagios-user=$USER
-    --with-nagios-group=users
+    --with-nagios-group=$group
     --with-httpd-conf=$PREFIX/etc
     --with-htmurl=
     --with-cgiurl=/cgi-bin

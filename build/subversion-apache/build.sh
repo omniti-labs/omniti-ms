@@ -28,23 +28,23 @@
 . ../../lib/functions.sh
 
 PROG=subversion
-VER=1.7.4
+VER=1.9.2
 VERHUMAN=$VER
 PKG=omniti/server/apache22/mod_svn
 SUMMARY="$PROG - An Open-Source Revision Control System for Apache"
 DESC="$SUMMARY"
 
 NEON=neon
-NVER=0.29.0
+NVER=0.30.1
 BUILDARCH=64
-BUILD_DEPENDS_IPS="developer/swig@1.3 omniti/server/apache22"
+BUILD_DEPENDS_IPS="developer/swig omniti/server/apache22"
 DEPENDS_IPS="database/sqlite-3@3.7 library/security/openssl@1.0.1 
              omniti/library/apr@1.4 omniti/library/apr-util@1.4
              system/library/gcc-4-runtime library/expat library/zlib
              omniti/server/apache22 omniti/developer/versioning/subversion"
 
-CFLAGS32="-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE"
-CPPFLAGS32="-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE"
+CFLAGS32="-D__EXTENSIONS__ -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE"
+CPPFLAGS32="-D__EXTENSIONS__ -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE"
 
 CONFIGURE_OPTS="$CONFIGURE_OPTS
     --sysconfdir=$PREFIX/etc
@@ -61,8 +61,10 @@ CONFIGURE_OPTS_32="$CONFIGURE_OPTS_32
     --with-apr=/opt/omni/bin/$ISAPART/apr-1-config
     --with-apr-util=/opt/omni/bin/$ISAPART/apu-1-config"
 
+CPPFLAGS64="-D__EXTENSIONS__ -I/opt/omni/include/amd64"
+
 CONFIGURE_OPTS_64="$CONFIGURE_OPTS_64
-    --with-swig=/usr/bin/$ISAPART64/swig
+    --with-swig=/opt/omni/bin/$ISAPART64/swig
     --with-apr=/opt/omni/bin/$ISAPART64/apr-1-config
     --with-apr-util=/opt/omni/bin/$ISAPART64/apu-1-config"
 
@@ -87,7 +89,12 @@ download_source() {
 
 prune() {
     logmsg "Pruning non-Apache bits"
-    logcmd rm -rf ${DESTDIR}/opt/omni
+    logcmd rm -rf ${DESTDIR}/opt/omni/bin
+    logcmd rm -rf ${DESTDIR}/opt/omni/etc
+    logcmd rm -rf ${DESTDIR}/opt/omni/share
+    logcmd rm -rf ${DESTDIR}/opt/omni/lib
+    logcmd rm -rf ${DESTDIR}/opt/omni/include
+    logcmd mv ${DESTDIR}/opt/omni ${DESTDIR}/opt/apache22
 }
 
 init

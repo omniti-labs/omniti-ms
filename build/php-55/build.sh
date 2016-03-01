@@ -28,7 +28,7 @@
 . ../../lib/functions.sh
 
 PROG=php
-VER=5.5.24
+VER=5.5.32
 VERHUMAN=$VER
 PKG=omniti/runtime/php-55
 SUMMARY="PHP Server 5.5"
