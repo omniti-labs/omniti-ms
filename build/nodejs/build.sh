@@ -32,9 +32,7 @@ PATH=$PATH:/usr/gnu/i386-pc-solaris2.11/bin
 export PATH
 
 PROG=node
-VER=0.10.21
-GITREPO=https://github.com/joyent/node.git
-GITHASH=e2da042844a830fafb8031f6c477eb4f96195210
+VER=4.3.1
 VERHUMAN=$VER
 PKG=omniti/runtime/nodejs
 SUMMARY="evented I/O for v8 javascript"
@@ -44,34 +42,18 @@ BUILD_DEPENDS_IPS="developer/versioning/git runtime/python-26"
 DEPENDS_IPS="library/security/openssl library/zlib runtime/python-26
 	shell/bash system/library/g++-4-runtime system/library/gcc-4-runtime
 	system/library/math system/library"
-GIT=git
-MAKE=gmake
+
 BUILDARCH=64
 CC=gcc
 CXX=g++
 CFLAGS="-m64"
-export CC CXX CFLAGS
-CONFIGURE_OPTS="--shared-zlib --prefix=/opt/omni"
+CXXFLAGS="-ffunction-sections -fdata-sections"
+export CC CXX CFLAGS CXXFLAGS
+CONFIGURE_OPTS="--prefix=/opt/omni --dest-os=solaris"
 CONFIGURE_OPTS_64="--dest-cpu=x64"
 
-clone_source(){
-    logmsg "Creating build dir $TMPDIR"
-    logcmd mkdir $TMPDIR
-    logmsg "Entering $TMPDIR"
-    pushd $TMPDIR > /dev/null 
-    logmsg "Cloning into workspace"
-    logcmd $GIT clone $GITREPO $BUILDDIR
-    pushd $BUILDDIR > /dev/null
-    logmsg "Setting checkout to $GITHASH"
-    logcmd $GIT checkout $GITHASH
-    logcmd $GIT reset --hard $GITHASH
-    popd > /dev/null 
-    logmsg "Leaving $TMPDIR/$BUILDDIR"
-    popd > /dev/null 
-}
-
 init
-clone_source
+download_source $PROG $PROG $VER
 patch_source
 prep_build
 build
