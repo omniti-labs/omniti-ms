@@ -28,36 +28,42 @@
 . ../../lib/functions.sh
 
 PROG=subversion
-VER=1.7.4
-PKG=omniti/library/python-2/pyswig-26
-SUMMARY="pyswig-26 - $PROG Python 2.6 bindings"
+VER=1.9.2
+PKG=omniti/library/python-2/pyswig-27
+SUMMARY="pyswig-27 - $PROG Python 2.7 bindings"
 DESC="$SUMMARY"
 
 NEON=neon
 NVER=0.29.6
-export PYTHON=/opt/python26/bin/python
+export PYTHON=/opt/python27/bin/python
 
-BUILD_DEPENDS_IPS="omniti/runtime/python-26 omniti/developer/swig"
-DEPENDS_IPS="omniti/library/apr =omniti/library/apr@1.4 
-             omniti/library/apr-util =omniti/library/apr-util@1.4
-	         omniti/developer/versioning/subversion =omniti/developer/versioning/subversion@1.7"
+BUILD_DEPENDS_IPS="omniti/runtime/python-27 omniti/developer/swig"
+DEPENDS_IPS="omniti/library/apr
+             omniti/library/apr-util
+	     omniti/developer/versioning/subversion
+	     omniti/library/serf
+             omniti/server/apache22"
 
 BUILDARCH=64
 CPPFLAGS="$CPPFLAGS -I/opt/omni/include" 
 LDFLAGS64="$LDFLAGS64 \
     -L/opt/omni/lib/$ISAPART64 -R/opt/omni/lib/$ISAPART64"
+CFLAGS="$CFLAGS -std=gnu99"
 
 CONFIGURE_OPTS="$CONFIGURE_OPTS
     --sysconfdir=$PREFIX/etc
     --with-pic
     --with-ssl
     --without-berkeley-db --without-jdk
-    --disable-nls"
+    --disable-nls
+    --with-apxs=/opt/apache22/bin/apxs
+    PYTHON=/opt/python27/bin/python"
 
 CONFIGURE_OPTS_64="$CONFIGURE_OPTS_64
     --with-swig=/opt/omni/bin/$ISAPART64/swig
     --with-apr=/opt/omni/bin/$ISAPART64/apr-1-config
-    --with-apr-util=/opt/omni/bin/$ISAPART64/apu-1-config"
+    --with-apr-util=/opt/omni/bin/$ISAPART64/apu-1-config
+    --with-apxs=/opt/apache22/bin/$ISAPART64/apxs"
 
 save_function download_source download_source_orig
 download_source() {

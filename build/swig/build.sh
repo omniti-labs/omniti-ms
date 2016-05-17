@@ -39,7 +39,7 @@ BUILD_DEPENDS_IPS="omniti/runtime/perl omniti/runtime/python-27"
 BUILDARCH=64
 
 CONFIGURE_OPTS="$CONFIGURE_OPTS --disable-ccache
-                --with-python=/opt/python26/bin/python
+                --with-python=/opt/python27/bin/python
                 --with-perl5=/opt/OMNIperl/bin/perl"
 
 init
