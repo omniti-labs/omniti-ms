@@ -79,6 +79,7 @@ download_source() {
 save_function make_prog make_prog_orig
 make_prog() {
     make_prog_orig
+    logcmd /usr/bin/perl -pi -e 's/$/ -lpython2.7/ if /^SWIG_PY_LINK.*(?!lpython2.7)/' Makefile
     make_param swig-py
 }
 

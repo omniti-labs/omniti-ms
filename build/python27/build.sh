@@ -42,7 +42,7 @@ BUILDARCH=64
 CFLAGS="-O3"
 CXXFLAGS="-O3"
 CPPFLAGS="-D_REENTRANT"
-LDFLAGS64="$LDFLAGS64 -L/opt/python26/lib/$ISAPART64 -R/opt/python26/lib/$ISAPART64"
+LDFLAGS64="$LDFLAGS64 -L/opt/python27/lib -R/opt/python27/lib"
 
 CONFIGURE_OPTS="--with-system-ffi
                 --enable-shared
