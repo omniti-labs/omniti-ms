@@ -21,16 +21,16 @@
 # CDDL HEADER END
 #
 #
-# Copyright 2011-2012 OmniTI Computer Consulting, Inc.  All rights reserved.
+# Copyright 2016 OmniTI Computer Consulting, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Load support functions
 . ../../lib/functions.sh
 
 PROG=pg_jobmon
-VER=1.3.1
+VER=1.3.3
 VERHUMAN=$VER
-: ${PGVER:=950}
+: ${PGVER:=953}
 PKG=omniti/database/postgresql-${PGVER}/pg_jobmon
 SUMMARY="$PROG - PostgreSQL Extension for logging and monitoring automated jobs"
 DESC="$SUMMARY"

@@ -21,7 +21,7 @@
 # CDDL HEADER END
 #
 #
-# Copyright 2011-2012 OmniTI Computer Consulting, Inc.  All rights reserved.
+# Copyright 2016 OmniTI Computer Consulting, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Load support functions
@@ -29,7 +29,7 @@
 
 PROG=postgresql
 # To build another version run "VER=9.4.2 ./build.sh"
-: ${VER:=9.4.6}
+: ${VER:=9.4.8}
 VERHUMAN=$VER
 PKG=omniti/database/postgresql-${VER//./}
 SUMMARY="$PROG - Open Source Database System"

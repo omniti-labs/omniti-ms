@@ -29,7 +29,7 @@
 
 PROG=postgresql
 # To build another version run "VER=9.5.0 ./build.sh"
-: ${VER:=9.5.1}
+: ${VER:=9.5.3}
 VERHUMAN=$VER
 PKG=omniti/database/postgresql-${VER//./}
 SUMMARY="$PROG - Open Source Database System"
