@@ -28,14 +28,14 @@
 . ../../lib/functions.sh
 
 PROG=go
-VER=1.5.1
+VER=1.6.2
 VERHUMAN=$VER   # Human-readable version
 #PVER=          # Branch (set in config.sh, override here if needed)
 PKG=omniti/runtime/go
 SUMMARY="An open source programming language."
 DESC=$SUMMARY
 
-BUILD_DEPENDS_IPS="developer/pkg-config omniti/runtime/go@1.4 developer/versioning/mercurial"
+BUILD_DEPENDS_IPS="developer/pkg-config omniti/runtime/go developer/versioning/mercurial"
 
 # Tricks so we can make the installation land in the right place.
 export GOROOT_FINAL=/opt/go
