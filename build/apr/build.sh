@@ -4,7 +4,7 @@
 . ../../lib/functions.sh
 
 PROG=apr
-VER=1.5.1
+VER=1.5.2
 PKG=omniti/library/apr
 SUMMARY="$PROG - Apache Portable Runtime"
 DESC="$SUMMARY"
