@@ -28,7 +28,7 @@
 . ../../lib/functions.sh
 
 PROG=nginx
-VER=1.4.4
+VER=1.11.2
 VERHUMAN=$VER
 PKG=omniti/server/nginx
 SUMMARY="nginx web server"
@@ -39,6 +39,8 @@ DEPENDS_IPS=$BUILD_DEPENDS_IPS
 BUILDARCH=64
 CONFIGURE_OPTS_64=" \
     --with-ipv6 \
+    --with-threads \
+    --with-http_v2_module \
     --with-http_ssl_module \
     --with-http_addition_module  \
     --with-http_xslt_module \
