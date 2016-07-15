@@ -1,0 +1,2 @@
+awt_headless.patch -p0
+awt_headless2.patch -p0
