@@ -708,20 +708,25 @@ make_isa_stub() {
 
 make_isaexec_stub_arch() {
     for file in $1/*; do
-        [[ -f $file ]] || continue # Deals with empty dirs & non-files
+
+	# Deals with empty dirs & non-files
+        [[ -f $file ]] || continue
+
         # Check to make sure we don't have a script
-        read -n 5 < $file
+        header=`od -x -N 4 $file | head -1`
+	if [ "$header" != "0000000 457f 464c" ]; then
+		logmsg "------ Relocating non-binary file $file"
+		mv $file .
+		continue
+	fi
+
         file=`echo $file | sed -e "s/$1\///;"`
+
         # Skip if we already made a stub for this file
         [[ -f $file ]] && continue
-        # Only copy non-binaries if we set NOSCRIPTSTUB
-        if [[ $REPLY != $'\177'ELF && -n "$NOSCRIPTSTUB" ]]; then
-            logmsg "------ Non-binary file: $file - copying instead"
-            cp $1/$file .
-            chmod +x $file
-            continue
-        fi
+
         logmsg "------ $file"
+
         # Run the makeisa.sh script
         CC=$CC \
         logcmd $MYDIR/makeisa.sh $PREFIX/$DIR $file || \
