@@ -27,14 +27,15 @@
 # Load support functions
 . ../../lib/functions.sh
 
-PROG=smartmontools
-VER=6.5
+PROG=nghttp2
+VER=1.12.0
 VERHUMAN=$VER
-PKG=omniti/system/storage/smartmontools
-SUMMARY="Control and monitor storage systems using SMART"
-DESC="Control and monitor storage systems using the Self-Monitoring, Analysis and Reporting Technology System (SMART) built into most modern ATA and SCSI harddisks."
+PKG=omniti/library/nghttp2
+SUMMARY="Nghttp2: HTTP/2 C Library"
+DESC="$SUMMARY"
 
-BUILDARCH=32
+LDFLAGS32="-L/opt/omni/lib -R/opt/omni/lib -lsocket -lnsl"
+LDFLAGS64="-L/opt/omni/lib/$ISAPART64 -R/opt/omni/lib/$ISAPART64 -lsocket -lnsl"
 
 init
 download_source $PROG $PROG $VER

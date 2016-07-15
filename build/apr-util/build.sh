@@ -4,12 +4,12 @@
 . ../../lib/functions.sh
 
 PROG=apr-util
-VER=1.4.1
+VER=1.5.4
 PKG=omniti/library/apr-util
 SUMMARY="$PROG - Apache Portable Runtime Utility"
 DESC="$SUMMARY"
 
-DEPENDS_IPS="omniti/library/apr@1.4 library/expat database/sqlite-3"
+DEPENDS_IPS="omniti/library/apr@1.5 library/expat database/sqlite-3"
 BUILD_DEPENDS_IPS="autoconf"
 
 PLATFORM=`uname -p`
