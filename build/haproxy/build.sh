@@ -28,8 +28,8 @@
 . ../../lib/functions.sh
 
 PROG=haproxy
-VER=1.5.14
-VERHUMAN="1.5.14"
+VER=1.5.18
+VERHUMAN="1.5.18"
 PKG=omniti/server/haproxy
 SUMMARY="The Reliable, High Performance TCP/HTTP Load Balancer"
 DESC="$SUMMARY"
