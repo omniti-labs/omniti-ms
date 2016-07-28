@@ -1,0 +1,29 @@
+#!/bin/sh
+#
+# Apache Traffic Server initializtion
+#
+
+# Where ATS lives
+TS_ROOT=/opt/ts
+
+# Desired depth of our DH Parameters file
+DH_BITS=2048
+
+# Location of the openssl CLI
+OPENSSL=/usr/bin/openssl
+
+init_dhparams() {
+    echo "Generating $DH_BITS bit DH Parameters file"
+    $OPENSSL dhparam -out $TS_ROOT/etc/dhparam.pem $DH_BITS
+    echo "DH Parameters file generated at $TS_ROOT/etc/dhparam.pem"
+}
+
+###
+# Main
+###
+
+if [ ! -f $TS_ROOT/etc/dhparam.pem ]; then
+    init_dhparams
+fi
+
+exec $TS_ROOT/bin/traffic_manager $*

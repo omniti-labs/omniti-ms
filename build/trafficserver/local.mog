@@ -1,6 +1,21 @@
 license LICENSE license=Apache2
-<transform dir path=opt/ts/var/.* -> set owner nobody>
-<transform dir path=opt/ts/var/.* -> set group nobody>
+group groupname=ats gid=81
+user username=ats uid=81 group=ats gcos-field="Apache Trafficserver" login-shell=/bin/false password=NP homedir=/opt/ts
+dir group=ats owner=ats mod=0775 path=opt/ts/etc/snapshots
+<transform file path=lib/svc/method/trafficserver -> set mode 0555>
+<transform file path=lib/svc/method/trafficserver -> set owner root>
+<transform file path=lib/svc/method/trafficserver -> set group bin>
+<transform dir path=opt/ts/etc -> set owner ats>
+<transform dir path=opt/ts/etc -> set group ats>
+<transform dir path=opt/ts/etc -> set mode 0775>
+<transform dir path=opt/ts/var/.* -> set owner ats>
+<transform dir path=opt/ts/var/.* -> set group ats>
 <transform dir path=opt/ts/var/.* -> set mode 0775>
-<transform file path=opt/ts/var/.* -> set owner nobody>
-<transform file path=opt/ts/var/.* -> set group nobody>
+<transform file path=opt/ts/var/.* -> set owner ats>
+<transform file path=opt/ts/var/.* -> set group ats>
+<transform file path=opt/ts/etc/.* -> set owner ats>
+<transform file path=opt/ts/etc/.* -> set group ats>
+<transform file path=opt/ts/etc/.* -> set preserve true>
+<transform file path=opt/ts/etc/snapshots/.* -> set preserve true>
+<transform file path=opt/ts/bin/traffic_manager -> set disable_fmri svc:/network/http/trafficserver:default>
+<transform file path=opt/ts/bin/traffic_manager -> set restart_fmri svc:/network/http/trafficserver:default>

@@ -2,23 +2,68 @@
 <!DOCTYPE service_bundle SYSTEM '/usr/share/lib/xml/dtd/service_bundle.dtd.1'>
 <service_bundle type='manifest' name='export'>
   <service name='network/http/trafficserver' type='service' version='0'>
-    <create_default_instance enabled='false'/>
-    <single_instance/>
+    <create_default_instance enabled='false' />
+    <single_instance />
+
     <dependency name='network' grouping='require_all' restart_on='error' type='service'>
-      <service_fmri value='svc:/milestone/network:default'/>
+        <service_fmri value='svc:/milestone/network:default' />
     </dependency>
     <dependency name='filesystem' grouping='require_all' restart_on='error' type='service'>
-      <service_fmri value='svc:/system/filesystem/local'/>
+        <service_fmri value='svc:/system/filesystem/local' />
     </dependency>
-    <exec_method name='start' type='method' exec='/bin/ppriv -e -s EI+sys_ip_config /opt/ts/bin/traffic_manager' timeout_seconds='60'/>
-    <exec_method name='stop' type='method' exec=':kill' timeout_seconds='60'/>
-    <property_group name='application' type='application'>
-      <propval name='config_file' type='astring' value='/opt/etc/ts/records.config'/>
+
+    <exec_method
+        name='start'
+        type='method'
+        exec='/lib/svc/method/trafficserver'
+        timeout_seconds='60'>
+        <method_context>
+            <method_credential
+                user='ats'
+                group='ats'
+                privileges='basic,sys_ip_config,net_privaddr'
+            />
+        </method_context>
+    </exec_method>
+
+    <exec_method
+        name='refresh'
+        type='method'
+        exec='/opt/ts/bin/traffic_ctl config reload'
+        timeout_seconds='60'
+    />
+
+    <exec_method
+        name='stop'
+        type='method'
+        exec=':kill'
+        timeout_seconds='60'
+    />
+
+    <property_group
+        name='application'
+        type='application'>
+        <propval
+            name='config_file'
+            type='astring'
+            value='/opt/etc/ts/records.config'
+        />
     </property_group>
-    <property_group name='startd' type='framework'>
-      <propval name='duration' type='astring' value='child'/>
-      <propval name='ignore_error' type='astring' value='core,signal'/>
+    <property_group
+        name='startd'
+        type='framework'>
+        <propval
+            name='duration'
+            type='astring'
+            value='child'
+        />
+        <propval
+            name='ignore_error'
+            type='astring'
+            value='core,signal'
+        />
     </property_group>
+
     <stability value='Evolving'/>
     <template>
       <common_name>

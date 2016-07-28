@@ -4,7 +4,7 @@
 . ../../lib/functions.sh
 
 PROG=trafficserver
-VER=5.3.2
+VER=6.2.0
 PKG=omniti/server/trafficserver
 SUMMARY="Apache Traffic Server - HTTP cache"
 DESC="$SUMMARY"
@@ -25,6 +25,9 @@ CPPFLAGS64="-D__WORDSIZE=64 -I/opt/omni/include/amd64"
 
 CONFIGURE_OPTS="
     --with-tcl=/opt/omni/lib/$ISAPART64
+    --enable-experimental-plugins
+    --enable-wccp
+    --enable-test-tools
 "
 
 # Custom configure_opts_64 because we don't want amd64 suffixes (single arch
@@ -39,20 +42,26 @@ CONFIGURE_OPTS_64="--prefix=$PREFIX
 	--mandir=$PREFIX/share/man
         --enable-experimental-plugins"
 
-move_etc() {
-    # Move etc to one side so that package reinstalls don't break things
-    # horribly
-    logmsg "Moving etc directory to etc.sample"
-    logcmd mv $DESTDIR$PREFIX/etc $DESTDIR$PREFIX/etc.sample || \
-        logerr "Failed to move etc directory aside"
-}
-
 install_manifest() {
     logmsg "Placing SMF manifest"
     logcmd mkdir -p $DESTDIR/var/svc/manifest/network/http || \
         logerr "--- failed to create manifest directory"
     logcmd cp $SRCDIR/files/trafficserver.xml $DESTDIR/var/svc/manifest/network/http || \
         logerr "--- failed to install manifest"
+}
+
+install_method() {
+    logmsg "Placing SMF method script"
+    logcmd mkdir -p $DESTDIR/lib/svc/method || \
+        logerr "--- failed to create manifest directory"
+    logcmd cp $SRCDIR/files/trafficserver.method $DESTDIR/lib/svc/method/trafficserver || \
+        logerr "--- failed to install method script"
+}
+
+install_config() {
+    logmsg "Placing default config files"
+    logcmd cp $SRCDIR/files/records.config $DESTDIR/opt/ts/etc/records.config || \
+        logerr "--- failed to install records.config"
 }
 
 make_install() {
@@ -69,7 +78,8 @@ download_source $PROG $PROG $VER
 patch_source
 prep_build
 build
-move_etc
+install_method
 install_manifest
+install_config
 make_package
 clean_up
