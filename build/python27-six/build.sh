@@ -21,27 +21,26 @@
 # CDDL HEADER END
 #
 #
-# Copyright 2016-2017 OmniTI Computer Consulting, Inc.  All rights reserved.
+# Copyright 2016 OmniTI Computer Consulting, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Load support functions
 . ../../lib/functions.sh
 
-PROG=python-dateutil
-VER=2.4.2
-VERHUMAN=$VER
-PKG=omniti/library/python-27/python-dateutil
-SUMMARY="Extensions to the standard Python datetime module"
-DESC=$SUMMARY
-
-# omniti-ms python is 64-bit only
-BUILDARCH=64
-PYTHON=/opt/python27/bin/python
+PROG=six # App name
+VER=1.10.0        # App version
+VERHUMAN=$VER   # Human readable version
+PKG=omniti/library/python-27/six
+SUMMARY="Python module for smoothing over the differences between the Python versions"
+DESC="Python 2/3 compatibility library providing functions to smooth out differences between Python versions with the goal of writing Python code that is compatible on both Python versions."
 
 LDFLAGS64="-L$PYTHONLIB -R$PYTHONLIB -L/opt/omni/lib/$ISAPART64 -R/opt/omni/lib/$ISAPART64"
+BUILDARCH=64
+PYTHON=/opt/python27/bin/python
+PATH=/opt/omni/bin:/opt/python27/bin:$PATH
 
-DEPENDS_IPS="omniti/runtime/python-27 omniti/library/python-27/setuptools omniti/library/python-27/six"
-BUILD_DEPENDS_IPS=$DEPENDS_IPS
+DEPENDS_IPS="omniti/runtime/python-27"
+BUILD_DEPENDS_IPS="$DEPENDS_IPS" 
 
 init
 download_source $PROG $PROG $VER
