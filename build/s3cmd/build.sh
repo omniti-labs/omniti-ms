@@ -30,19 +30,19 @@
 PROG=s3cmd
 VER=1.5.2 #-beta1
 VERHUMAN=$VER   # Human readable version
-PKG=omniti/database/s3cmd
+PKG=omniti/library/s3cmd
 SUMMARY="Command line tool for managing Amazon S3 and CloudFront services"      # Change this
 DESC="Command line tool for managing Amazon S3 and CloudFront services"         # Change this
 
-BUILD_DEPENDS_IPS="omniti/runtime/python-26 omniti/library/python-2/setuptools"
-DEPENDS_IPS="omniti/runtime/python-26 omniti/library/python-2/setuptools"
+BUILD_DEPENDS_IPS="omniti/runtime/python-27 omniti/library/python-2/setuptools omniti/library/python-27/python-dateutil"
+DEPENDS_IPS="omniti/runtime/python-27 omniti/library/python-2/setuptools omniti/library/python-27/python-dateutil"
 
 LDFLAGS64="-L$PYTHONLIB -R$PYTHONLIB -L/opt/omni/lib/$ISAPART64 -R/opt/omni/lib/$ISAPART64"
 
 
 # omniti-ms python is 64-bit only
 BUILDARCH=64
-PYTHON=/opt/python26/bin/python
+PYTHON=/opt/python27/bin/python
 
 init
 download_source $PROG $PROG $VER
