@@ -31,9 +31,10 @@ PATH=$SRCDIR/bin:$PATH
 export PATH
 
 PROG=erlang
-OTPVER=17.4
+
+OTPVER=18.3
 #REPO=git://github.com/slfritchie/otp.git
-VER=17.4.0
+VER=18.3.0
 VERHUMAN=$OTPVER
 PKG=omniti/runtime/erlang
 SUMMARY="Erlang OTP Platform"
@@ -58,6 +59,7 @@ CONFIGURE_OPTS="--enable-smp-support
     --enable-dynamic-ssl-lib
     --enable-m64-build"
 
+# This is very stale - should probably be removed
 clone_source() {
   pushd $TMPDIR > /dev/null || logerr "Cannot cd to $TMPDIR"
   logmsg "--- Cloning from $REPO"
@@ -78,6 +80,7 @@ if [[ -z "$REPO" ]]; then
 else
   clone_source
 fi
+
 patch_source
 prep_build
 build
