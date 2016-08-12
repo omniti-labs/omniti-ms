@@ -12,17 +12,9 @@ echo "Building postgresql-$PGVER and all extensions..."
 
 VER=$VER ../postgres95/build.sh -b
 sudo pkg install -g file:///export/home/vagrant/omniti-ms/tmp.repo postgresql-$PGVER
-VER=$VER ../pg95-dblink/build.sh  -b
-VER=$VER ../pg95-pg_stat_statements/build.sh -b
 PGVER=$PGVER ../pg95-pg_query_statsd/build.sh -b
 PGVER=$PGVER ../pg95-mimeo/build.sh -b
 PGVER=$PGVER ../pg95-pg_jobmon/build.sh -b
 PGVER=$PGVER ../pg95-pg_partman/build.sh -b
 VER=$VER ../pg95-plperl/build.sh -d 5.20 -b
-VER=$VER ../pg95-pgcrypto/build.sh -b
-VER=$VER ../pg95-fuzzystrmatch/build.sh -b
-VER=$VER ../pg95-hstore/build.sh -b
-VER=$VER ../pg95-btree_gist/build.sh -b
-VER=$VER ../pg95-pg_buffercache/build.sh -b
 PGVER=$PGVER ../pg95-pg_repack/build.sh -b
-VER=$VER ../pg95-tablefunc/build.sh -b

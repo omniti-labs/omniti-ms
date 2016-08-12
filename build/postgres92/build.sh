@@ -29,11 +29,13 @@
 
 PROG=postgresql
 # To build another version run "VER=9.2.11 ./build.sh"
-: ${VER:=9.2.16}
+: ${VER:=9.2.18}
 VERHUMAN=$VER
 PKG=omniti/database/postgresql-${VER//./}
 SUMMARY="$PROG - Open Source Database System"
 DESC="$SUMMARY"
+
+PKG_BASE=$PKG
 
 BUILD_DEPENDS_IPS="system/library/gcc-4-runtime"
 DEPENDS_IPS="omniti/database/postgresql/common system/library/gcc-4-runtime"
@@ -55,12 +57,31 @@ CONFIGURE_OPTS="--enable-thread-safety
 # We don't want the default settings for CONFIGURE_OPTS_64
 CONFIGURE_OPTS_64="--enable-dtrace DTRACEFLAGS=\"-64\""
 
+make_contrib() {
+    pushd $TMPDIR/$BUILDDIR/contrib > /dev/null
+    logcmd gmake
+    logcmd gmake DESTDIR=$DESTDIR install
+    popd > /dev/null
+}
+
 init
 download_source $DOWNLOADDIR $PROG $VER
 patch_source
 prep_build
 build
 make_isa_stub
+make_package
+clean_up
+
+PKG=$PKG_BASE/contrib
+SUMMARY="$PROG - Open Source Database System - Contributed Extensions"
+DESC="$SUMMARY"
+
+BUILD_DEPENDS_IPS="system/library/gcc-4-runtime"
+DEPENDS_IPS="omniti/database/postgresql/common $PKG_BASE"
+
+prep_build
+make_contrib
 make_package
 clean_up
 

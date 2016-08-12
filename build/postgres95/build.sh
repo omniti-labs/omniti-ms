@@ -29,7 +29,7 @@
 
 PROG=postgresql
 # To build another version run "VER=9.5.0 ./build.sh"
-: ${VER:=9.5.3}
+: ${VER:=9.5.4}
 VERHUMAN=$VER
 PKG=omniti/database/postgresql-${VER//./}
 SUMMARY="$PROG - Open Source Database System"
@@ -60,10 +60,10 @@ CONFIGURE_OPTS="--enable-thread-safety
 CONFIGURE_OPTS_64="--enable-dtrace DTRACEFLAGS=\"-64\""
 
 make_contrib() {
-    logcmd cd $TMPDIR/$BUILDDIR/contrib
+    pushd $TMPDIR/$BUILDDIR/contrib > /dev/null
     logcmd gmake
     logcmd gmake DESTDIR=$DESTDIR install
-    logcmd cd $TMPDIR/$BUILDDIR
+    popd > /dev/null
 }
 
 init
