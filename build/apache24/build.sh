@@ -41,7 +41,7 @@ fi
 # and the *64 variables are for 64 bit builds.
 CONFIGURE_OPTS_BASE="--with-mpm=prefork
     --enable-mpms-shared=all
-    --enable-mods-shared=all"
+    --enable-mods-shared=reallyall"
 
 CONFIGURE_OPTS_64="$CONFIGURE_OPTS_BASE
     --enable-layout=$LAYOUT64
