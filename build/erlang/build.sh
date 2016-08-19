@@ -74,6 +74,44 @@ clone_source() {
   popd > /dev/null
 }
 
+
+##########
+# Overwrite make_isaexec_stub_arch() from ../../lib/functions.sh.
+## (https://github.com/omniti-labs/omniti-ms/blob/master/lib/functions.sh#L709)
+# Line 719 does not handle links properly and is creating an incorrect symlink:
+## /opt/omni/bin/erl -> ../../lib/amd64/erlang/bin/erl
+# To prevent this, we cp instead of mv.
+make_isaexec_stub_arch() {
+    for file in $1/*; do
+
+        # Deals with empty dirs & non-files
+        [[ -f $file ]] || continue
+
+        # Check to make sure we don't have a script
+        header=`od -x -N 4 $file | head -1`
+        if [ "$header" != "0000000 457f 464c" ]; then
+                logmsg "------ Relocating non-binary file $file"
+                # This is the relevant change from functions.sh
+                cp $file .
+                continue
+        fi
+
+        file=`echo $file | sed -e "s/$1\///;"`
+
+        # Skip if we already made a stub for this file
+        [[ -f $file ]] && continue
+
+        logmsg "------ $file"
+
+        # Run the makeisa.sh script
+        CC=$CC \
+        logcmd $MYDIR/makeisa.sh $PREFIX/$DIR $file || \
+            logerr "--- Failed to make isaexec stub for $DIR/$file"
+    done
+}
+##########
+
+
 init
 if [[ -z "$REPO" ]]; then
   download_source $PROG otp_src_$OTPVER
