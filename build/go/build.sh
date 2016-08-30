@@ -28,7 +28,7 @@
 . ../../lib/functions.sh
 
 PROG=go
-VER=1.6.2
+VER=1.7
 VERHUMAN=$VER   # Human-readable version
 #PVER=          # Branch (set in config.sh, override here if needed)
 PKG=omniti/runtime/go
@@ -43,6 +43,9 @@ export GOROOT_FINAL=/opt/go
 export GOROOT_BOOTSTRAP=/opt/go
 
 export GOPATH="$DESTDIR/opt/go"
+
+export LD_LIBRARY_PATH=/opt/gcc-4.8.1/lib/amd64
+export CONFIGURE_OPTS_64="$CONFIGURE_OPTS_64 LDFLAGS=-Wl,-L/opt/gcc-4.8.1/lib/amd64,-R/opt/gcc-4.8.1/lib/amd64"
 
 make_clean() {
     cd $TMPDIR/$BUILDDIR/src
