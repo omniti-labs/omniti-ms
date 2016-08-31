@@ -36,8 +36,8 @@ SUMMARY="$PROG - PostgreSQL Extension for logging and monitoring automated jobs"
 DESC="$SUMMARY"
 
 TAR=gtar
-DEPENDS_IPS="omniti/database/postgresql-$PGVER"
-BUILD_DEPENDS_IPS="$DEPENDS_IPS"
+DEPENDS_IPS="omniti/database/postgresql-$PGVER omniti/database/postgresql-${PGVER}/contrib"
+BUILD_DEPENDS_IPS="$DEPENDS_IPS omniti/database/postgresql-${PGVER}/contrib"
 
 BUILDARCH=64
 PREFIX=/opt/pgsql$PGVER

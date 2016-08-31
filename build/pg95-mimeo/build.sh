@@ -30,13 +30,13 @@
 PROG=mimeo
 VER=1.4.1
 VERHUMAN=$VER
-: ${PGVER:=953}
+: ${PGVER:=954}
 PKG=omniti/database/postgresql-${PGVER}/mimeo
 SUMMARY="$PROG - Extension for specialized replication between PostgreSQL instances"
 DESC="$SUMMARY"
 
 TAR=gtar
-DEPENDS_IPS="omniti/database/postgresql-$PGVER  omniti/database/postgresql-${PGVER}/dblink omniti/database/postgresql-${PGVER}/pg_jobmon"
+DEPENDS_IPS="omniti/database/postgresql-$PGVER  omniti/database/postgresql-${PGVER}/contrib omniti/database/postgresql-${PGVER}/pg_jobmon"
 BUILD_DEPENDS_IPS="omniti/database/postgresql-$PGVER"
 
 BUILDARCH=64
