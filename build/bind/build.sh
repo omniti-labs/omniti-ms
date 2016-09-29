@@ -44,7 +44,6 @@ CONFIGURE_OPTS="
     --libdir=$PREFIX/lib/dns
     --sysconfdir=/etc
     --localstatedir=/var
-    --without-openssl
     --disable-static
 "
 
