@@ -24,6 +24,6 @@
 <transform file path=opt/php56/lib/php.ini -> set preserve true>
 <transform file path=opt/php56/etc/pear.conf -> set preserve true>
 <transform file path=opt/php56/etc/php-fpm.conf -> set preserve true>
-<transform file path=(opt/php56/etc/php-fpm|var/svc/manifest/application/php56-fpm.xml)$ -> set restart_fmri svc:/application/php56-fpm>
+<transform file path=(opt/php56/sbin/php-fpm|var/svc/manifest/application/php56-fpm.xml)$ -> set restart_fmri svc:/application/php56-fpm>
 <transform file path=var/svc/manifest/application/php56-fpm.xml -> set restart_fmri svc:/system/manifest-import:default>
 license LICENSE license=PHP
