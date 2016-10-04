@@ -22,4 +22,9 @@
 # Copyright 2011-2012 OmniTI Computer Consulting, Inc.  All rights reserved.
 # Use is subject to license terms.
 <transform file path=opt/apache22/libexec/amd64/libphp5.so -> edit path libphp5.so libphp5.54.so>
+<transform file path=opt/php55/lib/php.ini -> set preserve true>
+<transform file path=opt/php55/etc/pear.conf -> set preserve true>
+<transform file path=opt/php55/etc/php-fpm.conf -> set preserve true>
+<transform file path=(opt/php55/etc/php-fpm|var/svc/manifest/application/php55-fpm.xml)$ -> set restart_fmri svc:/application/php55-fpm>
+<transform file path=var/svc/manifest/application/php55-fpm.xml -> set restart_fmri svc:/system/manifest-import:default>
 license LICENSE license=PHP

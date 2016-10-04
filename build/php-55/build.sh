@@ -28,13 +28,14 @@
 . ../../lib/functions.sh
 
 PROG=php
-VER=5.5.34
+VER=5.5.38
 VERHUMAN=$VER
 PKG=omniti/runtime/php-55
 SUMMARY="PHP Server 5.5"
 DESC="PHP is a widely-used general-purpose scripting language that is especially suited for Web development and can be embedded into HTML."
 
 BUILD_DEPENDS_IPS="service/network/smtp/sendmail compress/bzip2 database/sqlite-3 library/libtool/libltdl library/libxml2 library/libxslt system/library/iconv/unicode system/library/iconv/utf-8 system/library/iconv/utf-8/manual system/library/iconv/xsh4/latin web/curl omniti/database/mysql-55/library omniti/library/freetype2 omniti/library/gd  omniti/library/libjpeg omniti/library/libmcrypt omniti/library/libpng omniti/library/libpq5 omniti/library/libssh2 omniti/library/mhash omniti/server/apache22"
+
 # Mostly auto-generated; these are additional
 DEPENDS_IPS="database/sqlite-3 system/library/iconv/unicode system/library/iconv/utf-8 system/library/iconv/xsh4/latin omniti/library/gd omniti/library/libssh2 omniti/library/mhash"
 
@@ -54,9 +55,11 @@ LDFLAGS64="$LDFLAGS64 -L/opt/omni/lib/$ISAPART64 -R/opt/omni/lib/$ISAPART64 \
 # The contents of this variable get passed to configure later on with the
 # apache apxs stuff added in
 PHP_CONFIGURE_OPTS="
+	--enable-fpm
         --prefix=$PREFIX
         --sysconfdir=$PREFIX/etc
         --includedir=$PREFIX/include
+	--localstatedir=/var
         --bindir=$PREFIX/bin
         --sbindir=$PREFIX/sbin
         --libdir=$PREFIX/lib
@@ -131,12 +134,23 @@ clean_dotfiles() {
         logerr "--- Unable to clean up destination directory"
 }
 
+# Install php.ini and php-fpm.conf files
+install_conffiles() {
+    logmsg "--- Installing PHP configuration files"
+    logcmd cp $SRCDIR/files/php.ini $DESTDIR/opt/php55/lib/php.ini
+    logcmd cp $SRCDIR/files/php-fpm.conf $DESTDIR/opt/php55/etc/php-fpm.conf
+    logcmd mkdir -p $DESTDIR/var/svc/manifest/application
+    logcmd cp $SRCDIR/files/php55-fpm.xml \
+        $DESTDIR/var/svc/manifest/application/php55-fpm.xml
+}
+
 init
 download_source $PROG $PROG $VER
 patch_source
 prep_build
 build
 clean_dotfiles
+install_conffiles
 make_package
 clean_up
 
