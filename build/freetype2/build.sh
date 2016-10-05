@@ -47,8 +47,8 @@ BUILD_DEPENDS_IPS=$DEPENDS_IPS
 
 export GNUMAKE=gmake
 LDFLAGS32=-R/opt/omni/lib
-LDFLAGS64="-R/opt/omni/lib/amd64 -L/opt/omni/lib/amd64 -lpng16"
-CONFIGURE_OPTS="--with-png=yes"
+LDFLAGS64="-R/opt/omni/lib/amd64"
+CONFIGURE_OPTS="--with-png=no"
 
 export PKG_CONFIG_PATH=/opt/omni/lib/pkgconfig
 
