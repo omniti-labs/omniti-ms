@@ -3,4 +3,5 @@ dir owner=root group=other mode=0700 path=/opt/apache24/conf/ssl
 <transform file path=opt/apache24/conf/httpd.conf -> set preserve true>
 <transform file path=var/svc/manifest/network/http-apache24.xml$ -> set mode 0444>
 <transform file path=(opt/apache24/bin/httpd|var/svc/manifest/network/http/http-apache24.xml)$ -> set restart_fmri svc:/network/http:apache24>
+<transform file path=var/svc/manifest/network/http/http-apache24.xml -> set restart_fmri svc:/system/manifest-import:default>
 license LICENSE license=Apache
