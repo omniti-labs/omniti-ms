@@ -27,19 +27,20 @@
 # Load support functions
 . ../../lib/functions.sh
 
-PROG=gd
-VER=2.0.35
+PROG=libgd
+VER=2.2.3
 VERHUMAN=$VER
 PKG=omniti/library/gd
 SUMMARY="$PROG - GD Graphics Library"
 DESC="$SUMMARY"
 
-DEPENDS_IPS="omniti/library/libjpeg =omniti/library/libjpeg@8 
-             omniti/library/libpng =omniti/library/libpng@1.5"
+DEPENDS_IPS="omniti/library/libjpeg =omniti/library/libjpeg
+             omniti/library/libpng =omniti/library/libpng"
 
 LDFLAGS32="-L/opt/omni/lib -R/opt/omni/lib"
 LDFLAGS64="-L/opt/omni/lib/$ISAPART64 -R/opt/omni/lib/$ISAPART64"
 CONFIGURE_OPTS="--with-png=/opt/omni 
+		--enable-werror=no
                 --without-freetype 
                 --without-fontconfig 
                 --with-jpeg 
