@@ -35,7 +35,7 @@ PKG=omniti/library/freetype2
 SUMMARY="A Free, High-Quality, and Portable Font Engine"
 DESC="$SUMMARY"
 
-DEPENDS_IPS="omniti/library/libpng compress/bzip2 library/zlib"
+DEPENDS_IPS="compress/bzip2 library/zlib"
 
 if (( $RELVER > 151014 )); then
 	DEPENDS_IPS+=" system/library/gcc-5-runtime"
