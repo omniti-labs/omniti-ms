@@ -41,7 +41,7 @@ LDFLAGS32="-L/opt/omni/lib -R/opt/omni/lib"
 LDFLAGS64="-L/opt/omni/lib/$ISAPART64 -R/opt/omni/lib/$ISAPART64"
 CONFIGURE_OPTS="--with-png=/opt/omni 
 		--enable-werror=no
-                --without-freetype 
+                --with-freetype=/opt/omni
                 --without-fontconfig 
                 --with-jpeg 
                 --without-libiconv-prefix"
@@ -49,9 +49,17 @@ CPPFLAGS="-I/opt/omni/include/"
 
 export LIBPNG_CONFIG="/opt/omni/bin/libpng-config"
 
+run_bootstrap() {
+	logmsg "Running $PROG bootstrap script"
+	pushd $TMPDIR/$BUILDDIR > /dev/null
+	logcmd ./bootstrap.sh || logerr "Failed to run ./bootstrap.sh"
+	popd > /dev/null
+}
+
 init
 download_source $PROG $PROG $VER
 patch_source
+run_bootstrap
 prep_build
 build
 make_isa_stub
