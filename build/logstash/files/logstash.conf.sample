@@ -1,8 +1,8 @@
-input { 
+input {
   file {
-    type => "syslog"
-    sincedb_path => "/opt/logstash"
     path => [ "/var/log/*.log", "/var/adm/messages", "/var/log/syslog" ]
+    type => "syslog"
+    sincedb_path => "/opt/logstash/.sincedb"
   }
 }
-output { stdout { debug => true debug_format => "json"}}
+output { stdout { codec => json }}

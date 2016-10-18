@@ -28,42 +28,20 @@
 . ../../lib/functions.sh
 
 PROG=logstash   # App name
-VER=1.3.3       # App version
+VER=2.4.0       # App version
 VERHUMAN=$VER   # Human-readable version
 PKG=omniti/network/logstash # Package name (e.g. library/foo)
 SUMMARY="Logstash log management tool"      # One-liner, must be filled in
 DESC="logstash is a tool for managing events and logs. You can use it to collect logs, parse them, and store them for later use (like, for searching)"
-JARFILE=$PROG-$VER-flatjar.jar
 PREFIX=/opt/logstash # Custom prefix
 
 NO_AUTO_DEPENDS=true
 
-# We only need to download a single file and not extract anything
-download_source() {
-    local TARGETDIR=$TMPDIR
-    if [[ ! -d $TARGETDIR ]]; then
-        logmsg "Making download dir"
-        logcmd mkdir -p $TARGETDIR || \
-            logerr "--- Failed to make download dir"
-    fi
-    pushd $TARGETDIR > /dev/null
-    logmsg "Downloading logstash jar"
-    if [[ ! -e $JARFILE ]]; then
-        URLPREFIX=http://$MIRROR/$PROG
-        logcmd $WGET -a $LOGFILE $URLPREFIX/$JARFILE || \
-            logerr "--- Failed to download file"
-    else
-        logmsg "--- Already downloaded"
-    fi
-    popd > /dev/null
-}
-
 build() {
     logmsg "Installing files"
-    logmsg "--- Jar file"
+    logmsg "--- Logstash files"
     logcmd mkdir -p $DESTDIR/$PREFIX
-    logcmd cp $TMPDIR/$JARFILE $DESTDIR/$PREFIX
-    logcmd ln -s $JARFILE $DESTDIR/$PREFIX/logstash.jar
+    logcmd cp -rf $TMPDIR/$PROG-$VER/* $DESTDIR/$PREFIX
 
     logmsg "--- SMF manifest"
     logcmd mkdir -p $DESTDIR/lib/svc/manifest/network

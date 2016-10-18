@@ -5,17 +5,19 @@
 PATH=${PATH}:/usr/sbin:/opt/logstash
 
 LOGSTASH_HOME=/opt/logstash
-LOGSTASH_JAR=logstash.jar
+LOGSTASH_BIN=bin/logstash
+LOGSTASH_LOGFILE=/var/svc/log/network-logstash:default.log
+LOGSTASH_LOGLEVEL="--quiet"
 
 LOGSTASH_CONFIG=logstash.conf
-LOGSTASH_ARGS="agent -f $LOGSTASH_HOME/$LOGSTASH_CONFIG"
+LOGSTASH_ARGS="agent -f $LOGSTASH_HOME/$LOGSTASH_CONFIG -l $LOGSTASH_LOGFILE $LOGSTASH_LOGLEVEL"
 
 JAVA_HOME=
 export JAVA_HOME
 
 start_logstash() {
 	cd $LOGSTASH_HOME && \
-	java -jar $LOGSTASH_HOME/$LOGSTASH_JAR $LOGSTASH_ARGS &
+	$LOGSTASH_HOME/$LOGSTASH_BIN $LOGSTASH_ARGS &
 }
 
 stop_logstash() {
