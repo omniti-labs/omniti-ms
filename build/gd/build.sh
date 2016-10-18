@@ -49,9 +49,17 @@ CPPFLAGS="-I/opt/omni/include/"
 
 export LIBPNG_CONFIG="/opt/omni/bin/libpng-config"
 
+run_bootstrap() {
+	logmsg "Running $PROG bootstrap script"
+	pushd $TMPDIR/$BUILDDIR > /dev/null
+	logcmd ./bootstrap.sh || logerr "Failed to run ./bootstrap.sh"
+	popd > /dev/null
+}
+
 init
 download_source $PROG $PROG $VER
 patch_source
+run_bootstrap
 prep_build
 build
 make_isa_stub
