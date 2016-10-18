@@ -1,0 +1,47 @@
+<?xml version='1.0' ?>
+<!DOCTYPE service_bundle SYSTEM '/usr/share/lib/xml/dtd/service_bundle.dtd.1'>
+
+<service_bundle type='manifest' name='smtp:opendkim' >
+	<service name='network/smtp/opendkim' type='service' version='1'>
+		<instance name='opendkim' enabled='false'>
+
+			<dependency name='loopback'  grouping='require_all'
+			restart_on='error' type='service'>
+				<service_fmri value='svc:/network/loopback:default' />
+			</dependency>
+			<dependency name='physical'  grouping='optional_all'
+			restart_on='error' type='service'>
+				<service_fmri value='svc:/network/physical:default' />
+			</dependency>
+
+			<dependency name='localfs'  grouping='require_all'
+			restart_on='error' type='service'>
+				<service_fmri value='svc:/system/filesystem/local:default' />
+			</dependency>
+			<dependency
+			name='config-file'
+			grouping='require_all'
+			restart_on='none'
+			type='path'>
+			<service_fmri
+			value='file://localhost/opt/omni/etc/opendkim.conf' />
+			</dependency>
+
+			<exec_method name='start' type='method'
+			exec='/opt/omni/sbin/opendkim -x /opt/omni/etc/opendkim.conf -f'
+			timeout_seconds='60' />
+
+			<exec_method name='stop' type='method' exec=':kill' timeout_seconds='60'/>
+	</instance>
+<stability value='Evolving' />
+<template>
+	<common_name>
+		<loctext xml:lang='C'>OpenDKIM Milter Service</loctext>
+	</common_name>
+	<documentation>
+		<manpage title='opendkim' section='1M' />
+		<doc_link name='opendkim.org' uri='http://opendkim.org' />
+	</documentation>
+</template>
+</service>
+</service_bundle>
