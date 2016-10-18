@@ -41,7 +41,7 @@ LDFLAGS32="-L/opt/omni/lib -R/opt/omni/lib"
 LDFLAGS64="-L/opt/omni/lib/$ISAPART64 -R/opt/omni/lib/$ISAPART64"
 CONFIGURE_OPTS="--with-png=/opt/omni 
 		--enable-werror=no
-                --without-freetype 
+                --with-freetype=/opt/omni
                 --without-fontconfig 
                 --with-jpeg 
                 --without-libiconv-prefix"
