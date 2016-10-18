@@ -1,49 +1,54 @@
-#!/bin/bash
-
+#!/usr/bin/bash
+#
+# CDDL HEADER START
+#
+# The contents of this file are subject to the terms of the
+# Common Development and Distribution License, Version 1.0 only
+# (the "License").  You may not use this file except in compliance
+# with the License.
+#
+# You can obtain a copy of the license at usr/src/OPENSOLARIS.LICENSE
+# or http://www.opensolaris.org/os/licensing.
+# See the License for the specific language governing permissions
+# and limitations under the License.
+#
+# When distributing Covered Code, include this CDDL HEADER in each
+# file and include the License file at usr/src/OPENSOLARIS.LICENSE.
+# If applicable, add the following below this CDDL HEADER, with the
+# fields enclosed by brackets "[]" replaced with your own identifying
+# information: Portions Copyright [yyyy] [name of copyright owner]
+#
+# CDDL HEADER END
+#
+#
+# Copyright 2011-2013 OmniTI Computer Consulting, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
 # Load support functions
 . ../../lib/functions.sh
 
 PROG=elasticsearch
-VER=1.1.2
-RPMREV=3
+VER=2.4.1
 PKG=omniti/system/elasticsearch
 SUMMARY="ElasticSearch - Open Source, Distributed, RESTful, Search Engine"
 DESC="$SUMMARY"
-PREFIX=/opt
-reset_configure_opts
+PREFIX=/opt/elasticsearch
 
-BUILD_DEPENDS_IPS="developer/versioning/git"
-DEPENDS_IPS="runtime/java"
+NO_AUTO_DEPENDS=true
 
-# There is nothing to configure/build-- we just want to package the files
-# That also means there's no sense in building 32/64-bit
-BUILDARCH=64
+build() {
+    logmsg "Installing files"
+    logmsg "--- Elasticsearch files"
+    logcmd mkdir -p $DESTDIR/$PREFIX
+    logcmd cp -rf $TMPDIR/$PROG-$VER/* $DESTDIR/$PREFIX
+    logcmd mkdir -p $DESTDIR/$PREFIX/plugins
+    logcmd mkdir -p $DESTDIR/$PREFIX/config/scripts
 
-build64() {
-    pushd $TMPDIR/$BUILDDIR > /dev/null
-    logmsg "Copying source files"
-    logcmd mkdir -p ${DESTDIR}${PREFIX}/$PROG || \
-        logerr "--- Unable to create destination directory"
-    logcmd rsync -a . ${DESTDIR}${PREFIX}/$PROG/ || \
-        logerr "--- Unable to copy files to destination directory"
-    logcmd mkdir -p ${DESTDIR}${PREFIX}/${PROG}/var/{log,data,work} || \
-        logerr "--- Unable to stub var dirs"
-    logcmd cp $DESTDIR${PREFIX}/$PROG/config/logging.yml{,.factory} || \
-        logerr "--- Failed to copy factory logging config"
-    logcmd cp $DESTDIR${PREFIX}/$PROG/config/elasticsearch.yml{,.factory} || \
-        logerr "--- Failed to copy factory ES config"
-    logcmd cp $SRCDIR/files/elasticsearch.yml $DESTDIR${PREFIX}/$PROG/config/elasticsearch.yml || \
-        logerr "--- Failed to place initial config"
+    logmsg "Installing SMF manifest"
+    logmsg "--- Elasticsearch SMF"
     logcmd mkdir -p ${DESTDIR}/lib/svc/manifest/system
     logcmd cp $SRCDIR/files/elasticsearch.xml ${DESTDIR}/lib/svc/manifest/system/ || \
         logerr "failed to install SMF"
-    popd > /dev/null
-    if [[ "$OSTYPE" == "Linux" ]]; then
-        logmsg "Installing init script"
-        logcmd mkdir -p $DESTDIR/etc/init.d
-        logcmd cp $SRCDIR/init-scripts/circonus-elasticsearch $DESTDIR/etc/init.d/ || \
-            logerr "Failed to install init script"
-    fi
 }
 
 init

@@ -13,7 +13,7 @@
     <dependency name='localfs' grouping='require_all' restart_on='error' type='service'>
       <service_fmri value='svc:/system/filesystem/local:default'/>
     </dependency>
-    <exec_method name='start' type='method' exec='/opt/elasticsearch/bin/elasticsearch' timeout_seconds='60'>
+    <exec_method name='start' type='method' exec='/opt/elasticsearch/bin/elasticsearch -d' timeout_seconds='60'>
       <method_context project=':default' resource_pool=':default' working_directory='/opt/elasticsearch/bin'>
         <method_credential user='nobody' group='other'/>
       </method_context>
