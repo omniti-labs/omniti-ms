@@ -28,18 +28,18 @@
 . ../../lib/functions.sh
 
 PROG=scons
-VER=2.4.0
+VER=2.5.0
 VERHUMAN=$VER
-PKG=omniti/library/python-2/scons
+PKG=omniti/library/python-27/scons
 SUMMARY="SCons Open Source software construction tool"
 DESC="SCons is an Open Source software construction tool"
 
-BUILD_DEPENDS_IPS="omniti/runtime/python-26"
-DEPENDS_IPS="omniti/runtime/python-26"
+BUILD_DEPENDS_IPS="omniti/runtime/python-27"
+DEPENDS_IPS="omniti/runtime/python-27"
 
 # omniti-ms python is 64-bit only
 BUILDARCH=64
-PYTHON=/opt/python26/bin/python
+PYTHON=/opt/python27/bin/python
 
 init
 download_source $PROG $PROG $VER

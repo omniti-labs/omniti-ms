@@ -28,7 +28,7 @@
 . ../../lib/functions.sh
 
 PROG=subversion
-VER=1.9.2
+VER=1.9.4
 VERHUMAN=$VER
 PKG=omniti/developer/versioning/subversion
 SUMMARY="$PROG - An Open-Source Revision Control System"

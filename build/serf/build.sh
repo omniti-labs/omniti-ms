@@ -28,18 +28,18 @@
 . ../../lib/functions.sh
 
 PROG=serf
-VER=1.3.8
+VER=1.3.9
 VERHUMAN=$VER   # Human-readable version
 PKG=omniti/library/serf
 SUMMARY="serf WebDav client library"
 DESC="$SUMMARY"
 
-BUILD_DEPENDS_IPS="developer/swig omniti/library/python-2/scons omniti/library/apr omniti/library/apr-util"
+BUILD_DEPENDS_IPS="developer/swig omniti/library/python-27/scons omniti/library/apr omniti/library/apr-util"
 DEPENDS_IPS="omniti/library/apr-util"
 
 PREFIX=/opt/omni
 
-SCONS="/opt/python26/bin/scons"
+SCONS="/opt/python27/bin/scons"
 
 GCC_PATH="/opt/gcc-4.8.1/bin/gcc"
 
@@ -47,7 +47,7 @@ SCONS_CONFIG_FILE=".saved_config"
 
 scons_conf_32() {
 echo "PREFIX = '/opt/omni'
-LIBDIR = 'opt/omni/lib'
+LIBDIR = '/opt/omni/lib'
 APR = '/opt/omni/bin/i386/apr-1-config'
 APU = '/opt/omni/bin/i386/apu-1-config'
 CC = ['/opt/gcc-4.8.1/bin/gcc']
@@ -58,7 +58,7 @@ CPPFLAGS = ['-D__EXTENSIONS__', '-L/opt/omni/lib', '-R/opt/omni/lib', '-D__EXTEN
 
 scons_conf_64() {
 echo "PREFIX = '/opt/omni'
-LIBDIR = 'opt/omni/lib/amd64'
+LIBDIR = '/opt/omni/lib/amd64'
 APR = '/opt/omni/bin/amd64/apr-1-config'
 APU = '/opt/omni/bin/amd64/apu-1-config'
 CC = ['/opt/gcc-4.8.1/bin/gcc']
