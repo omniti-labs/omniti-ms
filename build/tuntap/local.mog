@@ -1,2 +1,0 @@
-driver name=tun perms="* 0600 root sys"
-driver name=tap perms="* 0600 root sys"
