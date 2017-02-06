@@ -16,15 +16,8 @@
         name='start'
         type='method'
         exec='/lib/svc/method/trafficserver'
-        timeout_seconds='60'>
-        <method_context>
-            <method_credential
-                user='ats'
-                group='ats'
-                privileges='basic,sys_ip_config,net_privaddr'
-            />
-        </method_context>
-    </exec_method>
+        timeout_seconds='60'
+    />
 
     <exec_method
         name='refresh'

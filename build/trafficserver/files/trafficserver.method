@@ -15,7 +15,7 @@ OPENSSL=/usr/bin/openssl
 init_dhparams() {
     echo "Generating $DH_BITS bit DH Parameters file"
     $OPENSSL dhparam -out $TS_ROOT/etc/dhparam.pem $DH_BITS
-    echo "DH Parameters file generated at $TS_ROOT/etc/dhparam.pem"
+    echo "DH Parameters ($DH_BITS bits) file generated at $TS_ROOT/etc/dhparam.pem"
 }
 
 ###
@@ -25,5 +25,6 @@ init_dhparams() {
 if [ ! -f $TS_ROOT/etc/dhparam.pem ]; then
     init_dhparams
 fi
+
 
 exec $TS_ROOT/bin/traffic_manager $*

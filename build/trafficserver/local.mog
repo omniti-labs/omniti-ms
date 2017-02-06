@@ -1,7 +1,9 @@
 license LICENSE license=Apache2
 group groupname=ats gid=81
 user username=ats uid=81 group=ats gcos-field="Apache Trafficserver" login-shell=/bin/false password=NP homedir=/opt/ts
-dir group=ats owner=ats mod=0775 path=opt/ts/etc/snapshots
+dir group=ats owner=ats mode=0775 path=opt/ts/etc/snapshots
+dir group=ats owner=ats mode=0775 path=opt/ts/etc/remap.config.d
+dir group=ats owner=ats mode=0550 path=opt/ts/etc/ssl.d
 <transform file path=lib/svc/method/trafficserver -> set mode 0555>
 <transform file path=lib/svc/method/trafficserver -> set owner root>
 <transform file path=lib/svc/method/trafficserver -> set group bin>

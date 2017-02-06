@@ -4,7 +4,7 @@
 . ../../lib/functions.sh
 
 PROG=trafficserver
-VER=6.2.0
+VER=6.2.1
 PKG=omniti/server/trafficserver
 SUMMARY="Apache Traffic Server - HTTP cache"
 DESC="$SUMMARY"
@@ -18,7 +18,8 @@ BUILD_DEPENDS_IPS="library/expat library/security/openssl library/pcre database/
 DEPENDS_IPS="$BUILD_DEPENDS_IPS system/library/gcc-4-runtime system/library/g++-4-runtime"
 
 LDFLAGS64="-L/opt/omni/lib/$ISAPART64 -R/opt/omni/lib/$ISAPART64 \
-           -R$PREFIX/lib"
+           -R$PREFIX/lib \
+           -lumem"
 
 CPPFLAGS="-I/opt/omni/include -I/usr/include/pcre"
 CPPFLAGS64="-D__WORDSIZE=64 -I/opt/omni/include/amd64"
@@ -28,6 +29,8 @@ CONFIGURE_OPTS="
     --enable-experimental-plugins
     --enable-wccp
     --enable-test-tools
+    --with-user=ats
+    --with-group=ats
 "
 
 # Custom configure_opts_64 because we don't want amd64 suffixes (single arch
@@ -62,6 +65,9 @@ install_config() {
     logmsg "Placing default config files"
     logcmd cp $SRCDIR/files/records.config $DESTDIR/opt/ts/etc/records.config || \
         logerr "--- failed to install records.config"
+# For ATS 7.x we can use this remap.config.
+#    logcmd cp $SRCDIR/files/remap.config $DESTDIR/opt/ts/etc/remap.config || \
+#        logerr "--- failed to install remap.config"
 }
 
 make_install() {
@@ -74,7 +80,7 @@ make_install() {
 }
 
 init
-download_source $PROG $PROG $VER
+download_source apache/$PROG $PROG $VER
 patch_source
 prep_build
 build
