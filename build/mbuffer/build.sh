@@ -28,7 +28,7 @@
 . ../../lib/functions.sh
 
 PROG=mbuffer
-VER=20130220
+VER=20161115
 VERHUMAN=$VER
 PKG=omniti/system/mbuffer
 SUMMARY="$PROG - measuring buffer"
