@@ -28,7 +28,7 @@
 . ../../lib/functions.sh
 
 PROG=hwloc
-VER=1.9
+VER=1.11.5
 VERHUMAN=$VER
 PKG=omniti/system/hwloc
 SUMMARY="Portable Hardware Locality"
