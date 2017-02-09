@@ -28,11 +28,13 @@
 . ../../lib/functions.sh
 
 PROG=gdb
-VER=7.5
+VER=7.12.1
 VERHUMAN=$VER
 PKG=omniti/developer/debug/gdb
 SUMMARY="$PROG - the GNU Project debugger"
 DESC="GDB, the GNU Project debugger, allows you to see what is going on inside another program while it executes -- or what another program was doing at the moment it crashed."
+
+BUILD_DEPENDS_IPS="omniti/text/texinfo"
 
 BUILDARCH=64
 CURSES_DIR_64=/usr/gnu/lib/amd64
