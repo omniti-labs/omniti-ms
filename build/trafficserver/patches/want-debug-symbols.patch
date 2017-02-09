@@ -1,0 +1,13 @@
+diff --git a/configure.ac b/configure.ac
+index e692795..c710a9a 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -886,7 +886,7 @@ case $host_os_def in
+     AS_IF([test "x$ax_cv_c_compiler_vendor" = "xgnu"], [
+       common_opt="-pipe -Wall"
+       debug_opt="-ggdb3 $common_opt"
+-      release_opt="-g $common_opt $optimizing_flags -feliminate-unused-debug-symbols -fno-strict-aliasing"
++      release_opt="-g $common_opt $optimizing_flags -fno-strict-aliasing"
+       cxx_opt="-Wno-invalid-offsetof"
+     ])
+ 

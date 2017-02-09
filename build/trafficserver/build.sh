@@ -42,6 +42,7 @@ CPPFLAGS="-I/opt/omni/include -I/usr/include/pcre"
 CPPFLAGS64="-D__WORDSIZE=64 -I/opt/omni/include/amd64"
 
 CONFIGURE_OPTS="\
+    --with-event-interface=port \
     --disable-silent-rules \
     --with-tcl=/opt/omni/lib/${ISAPART64} \
     --enable-experimental-plugins \
@@ -61,6 +62,13 @@ CONFIGURE_OPTS_64="\
     --libexecdir=${PREFIX}/libexec \
     --mandir=${PREFIX}/share/man \
     --enable-experimental-plugins"
+
+run_autoreconf() {
+    logmsg "Running autoreconf"
+    pushd $TMPDIR/$BUILDDIR > /dev/null
+    logcmd autoreconf -fi || logerr "Failed to run autoreconf"
+    popd > /dev/null
+}
 
 install_manifest() {
     logmsg "Placing SMF manifest"
@@ -103,6 +111,7 @@ make_install() {
 init
 download_source apache/$PROG $PROG $VER
 patch_source
+run_autoreconf
 prep_build
 build
 install_method
