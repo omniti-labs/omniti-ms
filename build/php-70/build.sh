@@ -28,7 +28,7 @@
 . ../../lib/functions.sh
 
 PROG=php
-VER=7.0.11
+VER=7.0.15
 VERHUMAN=$VER
 PKG=omniti/runtime/php-70
 SUMMARY="PHP Server 7.0"
@@ -76,7 +76,7 @@ CONFIGURE_OPTS="
         --with-pdo-pgsql=/opt/omni
         --with-pgsql=/opt/omni
         --with-bz2
-        --with-curl=/opt/omni
+        --with-curl
         --with-mhash=/opt/omni
         --with-mcrypt=/opt/omni
         --enable-soap
