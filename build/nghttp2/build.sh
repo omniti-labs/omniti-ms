@@ -28,14 +28,19 @@
 . ../../lib/functions.sh
 
 PROG=nghttp2
-VER=1.12.0
+VER=1.19.0
 VERHUMAN=$VER
 PKG=omniti/library/nghttp2
 SUMMARY="Nghttp2: HTTP/2 C Library"
 DESC="$SUMMARY"
 
+CFLAGS="-O2"
 LDFLAGS32="-L/opt/omni/lib -R/opt/omni/lib -lsocket -lnsl"
 LDFLAGS64="-L/opt/omni/lib/$ISAPART64 -R/opt/omni/lib/$ISAPART64 -lsocket -lnsl"
+
+CONFIGURE_OPTS="\
+    --enable-lib-only \
+    --disable-silent-rules"
 
 init
 download_source $PROG $PROG $VER
