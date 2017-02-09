@@ -34,12 +34,20 @@ PKG=omniti/developer/debug/gdb
 SUMMARY="$PROG - the GNU Project debugger"
 DESC="GDB, the GNU Project debugger, allows you to see what is going on inside another program while it executes -- or what another program was doing at the moment it crashed."
 
-BUILD_DEPENDS_IPS="omniti/text/texinfo"
+DEPENDS_IPS="developer/gnu-binutils developer/object-file"
+BUILD_DEPENDS_IPS="${DEPENDS_IPS} omniti/text/texinfo"
 
 BUILDARCH=64
 CURSES_DIR_64=/usr/gnu/lib/amd64
 CFLAGS="-I/usr/include/ncurses"
 LDFLAGS64="-L$CURSES_DIR_64 -R$CURSES_DIR_64"
+
+export OBJCOPY=/usr/gnu/i386-pc-solaris2.11/bin/objcopy
+export OBJCOPY_FOR_TARGET=/usr/gnu/i386-pc-solaris2.11/bin/objcopy
+export OBJDUMP=/usr/gnu/i386-pc-solaris2.11/bin/objdump
+export OBJDUMP_FOR_TARGET=/usr/gnu/i386-pc-solaris2.11/bin/objdump
+export RANLIB_FOR_TARGET=/usr/bin/ranlib
+export NM_FOR_TARGET=/usr/bin/nm
 
 CONFIGURE_OPTS="--with-system-readline
                 --without-x
