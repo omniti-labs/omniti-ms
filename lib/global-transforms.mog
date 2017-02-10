@@ -100,3 +100,7 @@
 # If you ship an SMF manifest, it should be imported upon pkg install
 <transform file path=(var|lib)/svc/manifest/.*\.xml -> \
     add restart_fmri svc:/system/manifest-import:default>
+
+# GNU Texinfo dir files often conflict with packages and don't need
+# to be delivered.
+<transform file path=opt/omni/share/info/dir -> drop>
