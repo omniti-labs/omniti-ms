@@ -30,7 +30,7 @@
 PROG=pg_repack
 VER=1.3.1
 VERHUMAN=$VER
-: ${PGVER:=9213}
+: ${PGVER:=9220}
 PKG=omniti/database/postgresql-${PGVER}/pg_repack
 SUMMARY="$PROG - Reorganize tables in PostgreSQL databases with minimal locks"
 DESC="$SUMMARY"

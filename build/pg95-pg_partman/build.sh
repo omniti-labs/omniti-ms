@@ -28,9 +28,9 @@
 . ../../lib/functions.sh
 
 PROG=pg_partman
-VER=2.6.2
+VER=2.6.3
 VERHUMAN=$VER
-: ${PGVER:=955}
+: ${PGVER:=956}
 PKG=omniti/database/postgresql-${PGVER}/pg_partman
 SUMMARY="$PROG - Partition management extention for PostgreSQL"
 DESC="$SUMMARY"
