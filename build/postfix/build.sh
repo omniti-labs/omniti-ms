@@ -28,7 +28,7 @@
 . ../../lib/functions.sh
 
 PROG=postfix    # App name
-VER=2.10.2            # App version
+VER=2.11.9
 VERHUMAN=$VER   # Human-readable version
 #PVER=          # Branch (set in config.sh, override here if needed)
 PKG=omniti/network/smtp/postfix            # Package name (e.g. library/foo)
