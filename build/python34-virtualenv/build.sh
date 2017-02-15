@@ -27,10 +27,10 @@
 # Load support functions
 . ../../lib/functions.sh
 
-PROG=python-virtualenv
+PROG=virtualenv
 VER=15.1.0
 VERHUMAN=$VER
-PKG=omniti/library/python-34/python-virtualenv
+PKG=omniti/library/python-34/virtualenv
 SUMMARY="virtualenv is a tool to create isolated Python environments"
 DESC=$SUMMARY
 
