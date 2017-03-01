@@ -28,7 +28,7 @@
 . ../../lib/functions.sh
 
 PROG=libgd
-VER=2.2.3
+VER=2.2.4
 VERHUMAN=$VER
 PKG=omniti/library/gd
 SUMMARY="$PROG - GD Graphics Library"
