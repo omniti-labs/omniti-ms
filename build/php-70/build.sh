@@ -28,7 +28,7 @@
 . ../../lib/functions.sh
 
 PROG=php
-VER=7.0.15
+VER=7.0.17
 VERHUMAN=$VER
 PKG=omniti/runtime/php-70
 SUMMARY="PHP Server 7.0"
