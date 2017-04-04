@@ -28,7 +28,7 @@
 . ../../lib/functions.sh
 
 PROG=php
-VER=5.4.38
+VER=5.4.45
 VERHUMAN=$VER
 PKG=omniti/runtime/php-54
 SUMMARY="PHP Server 5.4"
@@ -43,10 +43,12 @@ BUILDARCH=64
 PREFIX=/opt/php54
 reset_configure_opts
 
+# Php will be compiled once for each of the following options
 APXS_OPTS="--with-apxs2=/opt/apache22/bin/apxs"
+
 FREETYPE_PATH="/opt/omni"
 
-CFLAGS="-O2 -I/opt/omni/include"
+CFLAGS="-O2 --std=gnu99 -I/opt/omni/include  -I/usr/include/amd64"
 LDFLAGS64="$LDFLAGS64 -L/opt/omni/lib/$ISAPART64 -R/opt/omni/lib/$ISAPART64 \
     -L/opt/omni/lib/$ISAPART64/mysql -R/opt/omni/lib/$ISAPART64/mysql \
     -L$PREFIX/lib -R$PREFIX/lib"
@@ -93,7 +95,7 @@ PHP_CONFIGURE_OPTS="
         --with-sqlite
         --enable-pcntl
         --with-openssl
-        "
+        $PHPOPT"
 
 # We need to make a fake httpd.conf so apxs in make install
 make_httpd_conf() {
