@@ -1,0 +1,13 @@
+--- a/ext/sockets/sendrecvmsg.c.orig	Tue Oct  4 22:31:07 2016
++++ b/ext/sockets/sendrecvmsg.c	Tue Oct  4 22:35:28 2016
+@@ -16,6 +16,10 @@
+    +----------------------------------------------------------------------+
+  */
+ 
++#ifndef _XPG4_2
++#define _XPG4_2
++#endif
++
+ #include <php.h>
+ #include "php_sockets.h"
+ #include "sendrecvmsg.h"
