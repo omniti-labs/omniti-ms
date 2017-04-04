@@ -28,16 +28,16 @@
 . ../../lib/functions.sh
 
 PROG=haproxy
-VER=1.5.18
-VERHUMAN="1.5.18"
+VER=1.6.11
+VERHUMAN=$VER
 PKG=omniti/server/haproxy
 SUMMARY="The Reliable, High Performance TCP/HTTP Load Balancer"
 DESC="$SUMMARY"
 
-BUILD_DEPENDS_IPS="library/pcre library/security/openssl library/zlib"
-DEPENDS_IPS="$BUILD_DEPENDS_IPS"
+DEPENDS_IPS="library/pcre library/security/openssl library/zlib"
+BUILD_DEPENDS_IPS="$DEPENDS_IPS archiver/gnu-tar"
 
-TAR=gtar
+TAR=/usr/gnu/bin/tar
 IGNOREGIT=true
 export IGNOREGIT
 BUILDDIR=${PROG}-${VER}
@@ -52,7 +52,15 @@ configure64() {
 make_prog() {
     [[ -n $NO_PARALLEL_MAKE ]] && MAKE_JOBS=""
     logmsg "--- make"
-    logcmd $MAKE $MAKE_JOBS TARGET=solaris ARCH=x86_64 USE_OPENSSL=1 USE_ZLIB=1 USE_PCRE=1 USE_REGPARM=1 ADDINC="-I/usr/include/pcre" || \
+    logcmd $MAKE $MAKE_JOBS \
+        TARGET=solaris \
+        ARCH=x86_64 \
+        USE_OPENSSL=1 \
+        USE_ZLIB=1 \
+        USE_PCRE=1 \
+        USE_REGPARM=1 \
+	ADDLIB="-lumem" \
+        ADDINC="-I/usr/include/pcre" || \
         logerr "--- Make failed"
 }
 
@@ -67,7 +75,6 @@ download_source $PROG $PROG $VER
 patch_source
 prep_build
 build
-make_isa_stub
 logcmd mkdir -p ${DESTDIR}/lib/svc/manifest/network
 logcmd cp $SRCDIR/files/haproxy.xml ${DESTDIR}/lib/svc/manifest/network/haproxy.xml
 make_package
