@@ -11,7 +11,7 @@ PGVER="95$MINOR"
 echo "Building postgresql-$PGVER and all extensions..."
 
 VER=$VER ../postgres95/build.sh -b
-sudo pkg install -g file:///export/home/vagrant/omniti-ms/tmp.repo postgresql-$PGVER
+sudo pkg install -g file:///export/home/vagrant/omniti-ms/tmp.repo postgresql-$PGVER postgresql-$PGVER/contrib
 PGVER=$PGVER ../pg95-pg_query_statsd/build.sh -b
 PGVER=$PGVER ../pg95-mimeo/build.sh -b
 PGVER=$PGVER ../pg95-pg_jobmon/build.sh -b
