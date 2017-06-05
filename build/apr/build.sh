@@ -20,8 +20,8 @@ else
     LAYOUT64=omnisparc64
 fi
 
-CPPFLAGS="$CPPFLAGS -I./include -I/opt/omni/include -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE"
-CFLAGS="$CFLAGS -I./include -I/opt/omni/include -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE"
+CPPFLAGS="$CPPFLAGS -I./include -I/opt/omni/include"
+CFLAGS="$CFLAGS -I./include -I/opt/omni/include"
 LDFLAGS32="-L/opt/omni/lib -R/opt/omni/lib"
 LDFLAGS64="-m64 -L/opt/omni/lib/$ISAPART64 -R/opt/omni/lib/$ISAPART64"
 

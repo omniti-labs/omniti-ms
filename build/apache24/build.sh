@@ -49,7 +49,7 @@ CONFIGURE_OPTS_64="$CONFIGURE_OPTS_BASE
     --with-apr-util=/opt/omni/bin/$ISAPART64/apu-1-config"
 
 LDFLAGS64="$LDFLAGS64 -L/opt/omni/lib/$ISAPART64 -R/opt/omni/lib/$ISAPART64"
-CFLAGS64="$CFLAGS64 -I/opt/omni/include -g"
+CFLAGS64="$CFLAGS64 -I/opt/omni/include/$ISAPART64 -g"
 
 overlay_root() {
     (cd $SRCDIR/root && tar cf - .) | (cd $DESTDIR && tar xf -)
