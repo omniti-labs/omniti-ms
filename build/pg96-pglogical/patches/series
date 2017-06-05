@@ -1,0 +1,3 @@
+pglogical_compat.h.patch
+pglogical_apply_spi.c.patch
+Makefile.patch

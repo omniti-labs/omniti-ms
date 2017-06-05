@@ -1,0 +1,22 @@
+--- pglogical-2.0.0/pglogical_output_plugin.h.orig	Mon May 15 17:50:58 2017
++++ pglogical-2.0.0/pglogical_output_plugin.h	Mon May 15 17:51:24 2017
+@@ -17,7 +17,7 @@
+ #include "nodes/primnodes.h"
+ 
+ /* summon cross-PG-version compatibility voodoo */
+-#include "pglogical_compat.h"
++#include "compat96/pglogical_compat.h"
+ 
+ #if PG_VERSION_NUM >= 90500
+ #define HAVE_REPLICATION_ORIGINS
+--- pglogical-2.0.0/pglogical.h.orig	Mon May 15 17:55:35 2017
++++ pglogical-2.0.0/pglogical.h	Mon May 15 17:56:27 2017
+@@ -24,7 +24,7 @@
+ #include "pglogical_fe.h"
+ #include "pglogical_node.h"
+ 
+-#include "pglogical_compat.h"
++#include "compat96/pglogical_compat.h"
+ 
+ #define PGLOGICAL_VERSION "2.0.0"
+ #define PGLOGICAL_VERSION_NUM 20000

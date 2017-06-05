@@ -1,0 +1,47 @@
+--- pglogical-2.0.0/pglogical_apply_spi.c.orig	Mon May 15 19:10:17 2017
++++ pglogical-2.0.0/pglogical_apply_spi.c	Mon May 15 19:23:26 2017
+@@ -454,7 +454,7 @@
+ pglogical_proccess_copy(pglogical_copyState *pglcstate)
+ {
+ 	uint64	processed;
+-	FILE	*save_stdin;
++	FILE	save_stdin;
+ 
+ 	if (!pglcstate->copy_parsetree || !pglcstate->copy_buffered_tuples)
+ 		return;
+@@ -489,9 +489,21 @@
+ 	 * for this relation. Before that we save the current 'stdin' stream and
+ 	 * restore it back when the COPY is done
+ 	 */
+-	save_stdin = stdin;
+-	stdin = pglcstate->copy_read_file;
++        /*
++         * XXX KEBE SAYS THIS IS A GODAWFUL HACK, for both the original, and my
++         * fix.
++         * "stdin" on illumos is not an actual local variable, but a macro
++         * pointing to an array element.  You can't just reassign the "stdin"
++         * pointer, therefore.
++         *
++         * Hackaround:  save_stdin needs to be FILE, not FILE *.  And do
++         * whole-struct assignments.
++         */
+ 
++        save_stdin = *stdin;
++        *stdin = *pglcstate->copy_read_file;
++
++
+ 	/* COPY may call into SPI (triggers, ...) and we already are in SPI. */
+ 	SPI_push();
+ 
+@@ -502,9 +514,10 @@
+ 	/* Clean up SPI state */
+ 	SPI_pop();
+ 
++        *pglcstate->copy_read_file = *stdin;
+ 	fclose(pglcstate->copy_read_file);
+ 	pglcstate->copy_read_file = NULL;
+-	stdin = save_stdin;
++	*stdin = save_stdin;
+ 
+ 	/* Ensure we processed correct number of tuples */
+ 	Assert(processed == pglcstate->copy_buffered_tuples);
