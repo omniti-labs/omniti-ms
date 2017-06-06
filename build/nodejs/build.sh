@@ -32,7 +32,7 @@ PATH=$PATH:/usr/gnu/i386-pc-solaris2.11/bin
 export PATH
 
 PROG=node
-VER=4.3.1
+VER=6.10.3
 VERHUMAN=$VER
 PKG=omniti/runtime/nodejs
 SUMMARY="evented I/O for v8 javascript"
@@ -42,6 +42,8 @@ BUILD_DEPENDS_IPS="developer/versioning/git runtime/python-26"
 DEPENDS_IPS="library/security/openssl library/zlib runtime/python-26
 	shell/bash system/library/g++-4-runtime system/library/gcc-4-runtime
 	system/library/math system/library"
+
+BUILDDIR=${PROG}-v${VER}
 
 BUILDARCH=64
 CC=gcc
@@ -53,7 +55,7 @@ CONFIGURE_OPTS="--prefix=/opt/omni --dest-os=solaris"
 CONFIGURE_OPTS_64="--dest-cpu=x64"
 
 init
-download_source $PROG $PROG $VER
+download_source $PROG $PROG v$VER
 patch_source
 prep_build
 build
