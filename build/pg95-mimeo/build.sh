@@ -28,9 +28,9 @@
 . ../../lib/functions.sh
 
 PROG=mimeo
-VER=1.4.1
+VER=1.5.1
 VERHUMAN=$VER
-: ${PGVER:=956}
+: ${PGVER:=957}
 PKG=omniti/database/postgresql-${PGVER}/mimeo
 SUMMARY="$PROG - Extension for specialized replication between PostgreSQL instances"
 DESC="$SUMMARY"
