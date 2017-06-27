@@ -4,7 +4,7 @@
 . ../../lib/functions.sh
 
 PROG=httpd
-VER=2.4.25
+VER=2.4.26
 PKG=omniti/server/apache24
 SUMMARY="$PROG - Apache Web Server ($VER)"
 DESC="$SUMMARY"
