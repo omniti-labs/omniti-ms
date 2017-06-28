@@ -28,7 +28,7 @@
 . ../../lib/functions.sh
 
 PROG=libgcrypt
-VER=1.6.6
+VER=1.7.7
 VERHUMAN=$VER
 PKG=omniti/security/libgcrypt
 SUMMARY="libgcrypt - cryptographic library"
@@ -39,16 +39,20 @@ DEPENDS_IPS="omniti/security/libgpg-error system/library system/library/gcc-4-ru
 
 LDFLAGS="-L/opt/omni/lib -R/opt/omni/lib"
 LDFLAGS64="-L/opt/omni/lib/$ISAPART64 -R/opt/omni/lib/$ISAPART64"
-CPPFLAGS64="$CPPFLAGS64 -Wa,--divide"
+CPPFLAGS64="${CPPFLAGS64} -Wa,--divide"
 
 CONFIGURE_OPTS="--disable-static"
-CONFIGURE_OPTS_64="--disable-static --build=x86_64"
+CONFIGURE_OPTS_64="${CONFIGURE_OPTS_64} --build=x86_64-pc-solaris2.11"
+
+PATH64="/opt/omni/bin/amd64:${PATH}"
 
 init
 download_source $PROG $PROG $VER
 patch_source
 prep_build
-build
+build32
+export PATH=${PATH64}
+build64
 make_isa_stub
 make_package
 clean_up
