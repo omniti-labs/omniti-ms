@@ -1,3 +1,7 @@
 license COPYING license=GPLv3
 license COPYING.LESSER license=LGPLv3
 license COPYING.ASL20 license=Apache2
+<transform file path=opt/omni/etc/rsyslog.conf -> set preserve true>
+<transform file path=opt/omni/sbin/rsyslogd -> set restart_fmri svc:/system/rsyslogd:default>
+<transform file path=lib/svc/manifest/system/rsyslogd.xml -> set restart_fmri svc:/system/manifest-import:default>
+

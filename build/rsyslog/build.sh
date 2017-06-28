@@ -28,7 +28,7 @@
 . ../../lib/functions.sh
 
 PROG=rsyslog
-VER=8.9.0
+VER=8.27.0
 VERDEV=8
 VERHUMAN="$VER (v${VERDEV}-stable)"
 PKG=omniti/logging/rsyslog
@@ -38,12 +38,12 @@ DESC="$SUMMARY"
 BUILD_DEPENDS_IPS="developer/parser/bison omniti/library/python-2/docutils library/security/openssl omniti/security/libguardtime omniti/security/guardtime omniti/library/libee omniti/library/libestr omniti/library/json-c omniti/library/uuid omniti/security/libgcrypt omniti/library/liblogging-stdlog omniti/library/pkgconf developer/build/autoconf developer/build/automake developer/build/libtool"
 DEPENDS_IPS="library/security/openssl omniti/security/libguardtime omniti/security/guardtime omniti/library/libee omniti/library/libestr omniti/library/json-c omniti/library/uuid omniti/security/libgcrypt omniti/library/liblogging-stdlog"
 
-CFLAGS="-I/opt/omni/include"
+CFLAGS="-I/opt/omni/include -I/opt/omni/include/json-c"
 CFLAGS64="-I/usr/include/amd64 -I/opt/omni/include/amd64 $CFLAGS64"
-LDFLAGS64="-L/opt/omni/lib/$ISAPART64 -R/opt/omni/lib/$ISAPART64"
+LDFLAGS64=" -mimpure-text -L/opt/omni/lib/$ISAPART64 -R/opt/omni/lib/$ISAPART64"
 ACLOCAL_PATH=/opt/omni/share/aclocal
 
-CONFIGURE_OPTS="--enable-imfile --enable-imsolaris --enable-guardtime --enable-diagtools --enable-usertools --disable-generate-man-pages"
+CONFIGURE_OPTS="--enable-imfile --enable-imsolaris --enable-omprog --enable-omuxsock --enable-omstdout --enable-guardtime --enable-diagtools --enable-usertools --disable-generate-man-pages"
 
 run_autoconf() {
     export ACLOCAL_PATH
@@ -105,6 +105,12 @@ copy_manifest() {
     logcmd cp $SRCDIR/files/rsyslogd.xml ${DESTDIR}/lib/svc/manifest/system
 }
 
+copy_config() {
+    logmsg "--- Copying config files"
+    logcmd mkdir -p ${DESTDIR}/${PREFIX}/etc/rsyslog.d
+    logcmd cp $SRCDIR/files/rsyslog.conf ${DESTDIR}/${PREFIX}/etc/rsyslog.conf
+}
+
 init
 download_source $PROG $PROG ${VER}
 patch_source
@@ -116,6 +122,7 @@ build64_opts
 build64
 make_isa_stub
 copy_manifest
+copy_config
 VER=${VER}.${VERDEV}
 make_package
 clean_up
