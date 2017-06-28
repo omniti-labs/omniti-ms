@@ -28,7 +28,7 @@
 . ../../lib/functions.sh
 
 PROG=json-c
-VER=0.11
+VER=0.13
 VERHUMAN=$VER
 PKG=omniti/library/json-c
 SUMMARY="A JSON implementation in C"
@@ -45,9 +45,17 @@ make_clean() {
         logmsg "--- *** WARNING *** make (dist)clean Failed"
 }
 
+autoreconf() {
+    logmsg "--- Running autogen.sh"
+    pushd $TMPDIR/$BUILDDIR > /dev/null
+    logcmd ./autogen.sh
+    popd > /dev/null
+}
+
 init
 download_source $PROG $PROG $VER
 patch_source
+autoreconf
 prep_build
 build
 make_isa_stub

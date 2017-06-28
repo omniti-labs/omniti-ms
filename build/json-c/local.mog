@@ -1,1 +1,2 @@
 license COPYING license=MIT
+link path=opt/omni/include/json target=./json-c
