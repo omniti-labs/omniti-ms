@@ -1,0 +1,11 @@
+--- otp_src_20.0/erts/emulator/Makefile.in.orig	Tue Aug  1 18:23:23 2017
++++ otp_src_20.0/erts/emulator/Makefile.in	Tue Aug  1 18:24:13 2017
+@@ -48,7 +48,7 @@
+ 
+ LDFLAGS=@LDFLAGS@
+ ARFLAGS=rc
+-OMIT_OMIT_FP=no
++OMIT_OMIT_FP=yes
+ TYPE_LIBS=
+ 
+ DIRTY_SCHEDULER_SUPPORT=@DIRTY_SCHEDULER_SUPPORT@
