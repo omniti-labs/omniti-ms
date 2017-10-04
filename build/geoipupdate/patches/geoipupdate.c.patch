@@ -1,0 +1,11 @@
+--- geoipupdate-2.4.0/bin/geoipupdate.c.orig	Mon Oct  2 21:12:02 2017
++++ geoipupdate-2.4.0/bin/geoipupdate.c	Mon Oct  2 21:12:39 2017
+@@ -873,7 +873,7 @@
+     exit_if(err, "Rename %s to %s failed\n", file_path_test, geoip_filename);
+ 
+     // fsync directory to ensure the rename is durable
+-    int dirfd = open(gu->database_dir, O_DIRECTORY);
++    int dirfd = open(gu->database_dir, O_RDONLY);
+     exit_if(-1 == dirfd, "Error opening database directory: %s",
+             strerror(errno));
+     exit_if(-1 == fsync(dirfd), "Error syncing database directory: %s",
