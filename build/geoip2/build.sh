@@ -27,11 +27,11 @@
 # Load support functions
 . ../../lib/functions.sh
 
-PROG=GeoIP
-VER=1.6.11
+PROG=GeoIP2
+VER=1.2.1
 VERHUMAN=$VER
-PKG=omniti/library/geoip
-SUMMARY="MaxMind GeoIP C API"
+PKG=omniti/library/geoip2
+SUMMARY="MaxMind GeoIP2 C API"
 DESC="$SUMMARY"
 
 run_bootstrap() {
@@ -41,11 +41,13 @@ run_bootstrap() {
     popd > /dev/null
 }
 
+export CC=/opt/gcc-4.8.1/bin/gcc
+
 init
 download_source $PROG $PROG $VER
 patch_source
-prep_build
 run_bootstrap
+prep_build
 build
 make_isa_stub
 make_package
