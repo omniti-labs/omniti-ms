@@ -28,7 +28,8 @@
 . ../../lib/functions.sh
 
 PROG=ImageMagick
-VER=6.9.1-2
+#VER=6.9.9-19
+VER=7.0.7.7
 VERHUMAN=$VER
 PKG=omniti/image/imagemagick
 SUMMARY="software suite to create, edit, compose, or convert bitmap images"
@@ -38,8 +39,8 @@ BUILD_DEPENDS_IPS="omniti/library/freetype2 omniti/library/libjpeg omniti/librar
 DEPENDS_IPS="omniti/library/freetype2 omniti/library/libjpeg omniti/library/libpng"
 
 CFLAGS="-I/opt/omni/include"
-LDFLAGS32="$LDFLAGS32 -L/opt/omni/lib -R/opt/omni/lib"
-LDFLAGS64="$LDFLAGS64 -L/opt/omni/lib/$ISAPART64 -R/opt/omni/lib/$ISAPART64"
+LDFLAGS32="-lnsl -lsocket $LDFLAGS32 -L/opt/omni/lib -R/opt/omni/lib"
+LDFLAGS64="-lnsl -lsocket $LDFLAGS64 -L/opt/omni/lib/$ISAPART64 -R/opt/omni/lib/$ISAPART64"
 
 CONFIGURE_OPTS="--disable-openmp --disable-static --without-x"
 
