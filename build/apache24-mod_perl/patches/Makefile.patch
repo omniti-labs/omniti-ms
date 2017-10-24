@@ -1,0 +1,11 @@
+--- /tmp/build_vagrant/mod_perl-2.0.10/xs/APR/aprext/Makefile.orig	Fri Oct 20 18:42:32 2017
++++ /tmp/build_vagrant/mod_perl-2.0.10/xs/APR/aprext/Makefile	Fri Oct 20 18:52:46 2017
+@@ -419,7 +419,7 @@
+ 
+ # --- MakeMaker linkext section:
+ 
+-linkext :: static 
++linkext :: $(LINKTYPE) 
+ 	$(NOECHO) $(NOOP)
+ 
+ 
