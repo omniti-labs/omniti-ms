@@ -1,0 +1,19 @@
+--- memcached-1.5.2/Makefile.in.orig	Mon Oct 16 17:50:00 2017
++++ memcached-1.5.2/Makefile.in	Mon Oct 16 17:51:36 2017
+@@ -101,11 +101,11 @@
+ @BUILD_LINUX_PRIVS_TRUE@am__append_7 = -lseccomp
+ @BUILD_DTRACE_TRUE@am__append_8 = memcached_dtrace.h
+ @BUILD_DTRACE_TRUE@am__append_9 = memcached_dtrace.h
+-@DTRACE_INSTRUMENT_OBJ_TRUE@am__append_10 = memcached_dtrace.o
+-@DTRACE_INSTRUMENT_OBJ_TRUE@am__append_11 = memcached_dtrace.o
+-@DTRACE_INSTRUMENT_OBJ_TRUE@am__append_12 = memcached_debug_dtrace.o
+-@DTRACE_INSTRUMENT_OBJ_TRUE@am__append_13 = memcached_debug_dtrace.o
+-@DTRACE_INSTRUMENT_OBJ_TRUE@am__append_14 = memcached_dtrace.o memcached_debug_dtrace.o
++@BUILD_DTRACE_TRUE@am__append_7 = memcached_dtrace.o
++@BUILD_DTRACE_TRUE@am__append_8 = memcached_dtrace.o
++@BUILD_DTRACE_TRUE@am__append_9 = memcached_debug_dtrace.o
++@BUILD_DTRACE_TRUE@am__append_10 = memcached_debug_dtrace.o
++@BUILD_DTRACE_TRUE@am__append_11 = memcached_dtrace.o memcached_debug_dtrace.o
+ subdir = .
+ ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
+ am__aclocal_m4_deps = $(top_srcdir)/version.m4 \
