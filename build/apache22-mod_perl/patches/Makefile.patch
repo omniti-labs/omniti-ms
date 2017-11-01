@@ -1,0 +1,10 @@
+--- mod_perl-2.0.10/xs/APR/aprext/Makefile.orig	Wed Nov  1 16:22:51 2017
++++ mod_perl-2.0.10/xs/APR/aprext/Makefile	Wed Nov  1 16:24:14 2017
+@@ -419,7 +419,7 @@
+
+ # --- MakeMaker linkext section:
+ 
+-linkext :: static 
++linkext :: $(LINKTYPE) 
+ 	$(NOECHO) $(NOOP)
+ 

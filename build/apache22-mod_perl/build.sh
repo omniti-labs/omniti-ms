@@ -28,7 +28,7 @@
 . ../../lib/functions.sh
 
 PROG=mod_perl
-VER=2.0.8
+VER=2.0.10
 VERHUMAN=$VER
 PKG=omniti/server/apache22/mod_perl
 SUMMARY="$PROG - embedded Perl $DEPVER interpreter for Apache"
@@ -37,7 +37,7 @@ DESC="$SUMMARY"
 BUILD_DEPENDS_IPS="omniti/library/apr-util omniti/server/apache22 omniti/runtime/perl"
 DEPENDS_IPS="omniti/runtime/perl omniti/library/apr-util"
 
-VERLIST="5.14 5.16 5.20"
+VERLIST="5.14 5.16 5.20 5.26"
 
 case $DEPVER in
     5.14)
@@ -52,6 +52,10 @@ case $DEPVER in
         DEPENDS_IPS="$DEPENDS_IPS omniti/incorporation/perl-520-incorporation"
         BUILD_DEPENDS_IPS="$BUILD_DEPENDS_IPS omniti/incorporation/perl-520-incorporation"
         ;;
+    5.26)
+        DEPENDS_IPS="$DEPENDS_IPS omniti/incorporation/perl-526-incorporation"
+        BUILD_DEPENDS_IPS="$BUILD_DEPENDS_IPS omniti/incorporation/perl-526-incorporation"
+        ;;
     "")
         logerr "You must specify a version with -d DEPVER. Valid versions: $VERLIST"
         ;;
@@ -59,7 +63,7 @@ esac
 
 BUILDARCH=64
 export P64=/opt/OMNIperl/bin/$ISAPART64/perl
-export APXS64=/opt/apache22/bin/$ISAPART64/apxs
+export APXS64=/opt/apache22/bin/apxs
 
 build64() {
     pushd $TMPDIR/$BUILDDIR > /dev/null
@@ -68,6 +72,9 @@ build64() {
     logmsg "--- Makefile.PL"
     logcmd $P64 Makefile.PL MP_APXS=$APXS64 INSTALLDIRS=vendor || \
         logerr "--- Makefile.PL failed"
+    logmsg "--- patch makefile"
+    #standard patch proceedure is missing --ignore-whitespace (-l) so roughly constucted below
+    logcmd gpatch -p1 -t -s -N -l $TMPDIR/$BUILDDIR/xs/APR/aprext/Makefile -i $SRCDIR/patches/Makefile.patch  
     logmsg "--- make"
     logcmd make || logerr "--- make failed"
     logmsg "--- make install"
@@ -83,7 +90,7 @@ rm_unwanted_files() {
 
 init
 download_source apache/perl $PROG $VER
-patch_source
+#patch_source #current patch needs to happen after perl Makefile.PL in build64
 prep_build
 build
 rm_unwanted_files
