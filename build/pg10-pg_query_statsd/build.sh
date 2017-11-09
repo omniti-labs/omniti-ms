@@ -27,17 +27,16 @@
 # Load support functions
 . ../../lib/functions.sh
 
-PROG=pg_partman
-VER=1.8.5
+PROG=pg_query_statsd
+VER=0.0.1
 VERHUMAN=$VER
-: ${PGVER:=9223}
-PKG=omniti/database/postgresql-${PGVER}/pg_partman
-SUMMARY="$PROG - Partition management extention for PostgreSQL"
-DESC="$SUMMARY"
+: ${PGVER:=100}
+PKG=omniti/database/postgresql-${PGVER}/$PROG
+SUMMARY="$PROG - send query statistics to a statsd compatible interface"
+DESC="$PROG is a small plugin for PostgreSQL that sends query statistics to a statsd compatible interface. Right now it sends query runtime and total tuples returned."
 
-TAR=gtar
+BUILD_DEPENDS_IPS="omniti/database/postgresql-$PGVER"
 DEPENDS_IPS="omniti/database/postgresql-$PGVER"
-BUILD_DEPENDS_IPS="$DEPENDS_IPS"
 
 BUILDARCH=64
 PREFIX=/opt/pgsql$PGVER
@@ -48,6 +47,9 @@ configure64() {
 }
 
 export USE_PGXS=1
+make_prog() {
+    make_param prefix=$PREFIX
+}
 make_install() {
     make_param DESTDIR=${DESTDIR} prefix=$PREFIX install
 }

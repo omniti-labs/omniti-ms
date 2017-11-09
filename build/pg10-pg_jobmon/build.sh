@@ -21,23 +21,23 @@
 # CDDL HEADER END
 #
 #
-# Copyright 2011-2012 OmniTI Computer Consulting, Inc.  All rights reserved.
+# Copyright 2016 OmniTI Computer Consulting, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Load support functions
 . ../../lib/functions.sh
 
-PROG=pg_partman
-VER=1.8.5
+PROG=pg_jobmon
+VER=1.3.3
 VERHUMAN=$VER
-: ${PGVER:=9223}
-PKG=omniti/database/postgresql-${PGVER}/pg_partman
-SUMMARY="$PROG - Partition management extention for PostgreSQL"
+: ${PGVER:=100}
+PKG=omniti/database/postgresql-${PGVER}/pg_jobmon
+SUMMARY="$PROG - PostgreSQL Extension for logging and monitoring automated jobs"
 DESC="$SUMMARY"
 
 TAR=gtar
-DEPENDS_IPS="omniti/database/postgresql-$PGVER"
-BUILD_DEPENDS_IPS="$DEPENDS_IPS"
+DEPENDS_IPS="omniti/database/postgresql-$PGVER omniti/database/postgresql-${PGVER}/contrib"
+BUILD_DEPENDS_IPS="$DEPENDS_IPS omniti/database/postgresql-${PGVER}/contrib"
 
 BUILDARCH=64
 PREFIX=/opt/pgsql$PGVER

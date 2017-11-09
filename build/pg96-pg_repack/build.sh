@@ -28,7 +28,7 @@
 . ../../lib/functions.sh
 
 PROG=pg_repack
-VER=1.3.4
+VER=1.4.2
 VERHUMAN=$VER
 : ${PGVER:=962}
 PKG=omniti/database/postgresql-${PGVER}/pg_repack

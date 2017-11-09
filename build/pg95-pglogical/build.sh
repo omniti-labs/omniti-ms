@@ -30,7 +30,7 @@
 PROG=pglogical
 VER=2.0.0
 VERHUMAN=$VER
-: ${PGVER:=957}
+: ${PGVER:=959}
 PKG=omniti/database/postgresql-${PGVER}/pglogical
 SUMMARY="$PROG - provides logical streaming replication for PostgreSQL"
 DESC="$SUMMARY"

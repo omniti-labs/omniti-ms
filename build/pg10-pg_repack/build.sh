@@ -21,33 +21,37 @@
 # CDDL HEADER END
 #
 #
-# Copyright 2011-2012 OmniTI Computer Consulting, Inc.  All rights reserved.
+# Copyright 2011-2013 OmniTI Computer Consulting, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Load support functions
 . ../../lib/functions.sh
 
-PROG=pg_partman
-VER=1.8.5
+PROG=pg_repack
+VER=1.4.2
 VERHUMAN=$VER
-: ${PGVER:=9223}
-PKG=omniti/database/postgresql-${PGVER}/pg_partman
-SUMMARY="$PROG - Partition management extention for PostgreSQL"
+: ${PGVER:=101}
+PKG=omniti/database/postgresql-${PGVER}/pg_repack
+SUMMARY="$PROG - Reorganize tables in PostgreSQL databases with minimal locks"
 DESC="$SUMMARY"
 
-TAR=gtar
+BUILD_DEPENDS_IPS="omniti/database/postgresql-$PGVER"
 DEPENDS_IPS="omniti/database/postgresql-$PGVER"
-BUILD_DEPENDS_IPS="$DEPENDS_IPS"
 
 BUILDARCH=64
 PREFIX=/opt/pgsql$PGVER
 PATH=$PREFIX/bin:$PATH
+TAR=gtar
+#BUILDDIR=${PROG}-ver_$VER
 
 configure64() {
     logmsg "--- Skipping configure - not required"
 }
 
 export USE_PGXS=1
+make_prog() {
+    make_param prefix=$PREFIX
+}
 make_install() {
     make_param DESTDIR=${DESTDIR} prefix=$PREFIX install
 }

@@ -1,0 +1,11 @@
+--- pglogical-2.0.0/Makefile.orgi	Mon May 15 20:57:45 2017
++++ pglogical-2.0.0/Makefile	Mon May 15 20:58:16 2017
+@@ -51,7 +51,7 @@
+ PG_CPPFLAGS += -I$(libpq_srcdir) -I$(realpath $(srcdir)/compat$(PGVER))
+ SHLIB_LINK += $(libpq)
+ 
+-OBJS += $(srcdir)/compat$(PGVER)/pglogical_compat.o
++OBJS += $(srcdir)/compat96/pglogical_compat.o
+ 
+ ifeq ($(PGVER),94)
+ DATA += compat94/pglogical_origin.control compat94/pglogical_origin--1.0.0.sql
