@@ -1,5 +1,5 @@
---- pglogical-2.0.0/Makefile.orgi	Mon May 15 20:57:45 2017
-+++ pglogical-2.0.0/Makefile	Mon May 15 20:58:16 2017
+--- pglogical-2.1.0/Makefile.orgi	Mon May 15 20:57:45 2017
++++ pglogical-2.1.0/Makefile	Mon May 15 20:58:16 2017
 @@ -51,7 +51,7 @@
  PG_CPPFLAGS += -I$(libpq_srcdir) -I$(realpath $(srcdir)/compat$(PGVER))
  SHLIB_LINK += $(libpq)
