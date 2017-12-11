@@ -5,7 +5,7 @@
  SHLIB_LINK += $(libpq)
  
 -OBJS += $(srcdir)/compat$(PGVER)/pglogical_compat.o
-+OBJS += $(srcdir)/compat96/pglogical_compat.o
++OBJS += $(srcdir)/compat10/pglogical_compat.o
  
  ifeq ($(PGVER),94)
  DATA += compat94/pglogical_origin.control compat94/pglogical_origin--1.0.0.sql

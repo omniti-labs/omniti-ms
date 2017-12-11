@@ -34,10 +34,13 @@ export SHELL
 # Load support functions
 . ../../lib/functions.sh
 
-CURRVERS="5.14 5.16 5.20"
+CURRVERS="5.14 5.16 5.20 5.26"
 
 case $DEPVER in
-    ""|5.20)
+    ""|5.26)
+        VER=5.26.1
+        ;;
+    5.20)
         VER=5.20.3
         ;;
     5.16)

@@ -5,7 +5,7 @@
  
  /* summon cross-PG-version compatibility voodoo */
 -#include "pglogical_compat.h"
-+#include "compat96/pglogical_compat.h"
++#include "compat10/pglogical_compat.h"
  
  #if PG_VERSION_NUM >= 90500
  #define HAVE_REPLICATION_ORIGINS
@@ -16,7 +16,7 @@
  #include "pglogical_node.h"
  
 -#include "pglogical_compat.h"
-+#include "compat96/pglogical_compat.h"
++#include "compat10/pglogical_compat.h"
  
  #define PGLOGICAL_VERSION "2.1.0"
  #define PGLOGICAL_VERSION_NUM 20000

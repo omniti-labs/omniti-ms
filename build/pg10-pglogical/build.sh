@@ -21,37 +21,33 @@
 # CDDL HEADER END
 #
 #
-# Copyright 2011-2013 OmniTI Computer Consulting, Inc.  All rights reserved.
+# Copyright 2017-2018 OmniTI Computer Consulting, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Load support functions
 . ../../lib/functions.sh
 
-PROG=pg_repack
-VER=1.4.2
+PROG=pglogical
+VER=2.1.0
 VERHUMAN=$VER
-: ${PGVER:=9510}
-PKG=omniti/database/postgresql-${PGVER}/pg_repack
-SUMMARY="$PROG - Reorganize tables in PostgreSQL databases with minimal locks"
+: ${PGVER:=101}
+PKG=omniti/database/postgresql-${PGVER}/pglogical
+SUMMARY="$PROG - provides logical streaming replication for PostgreSQL"
 DESC="$SUMMARY"
 
-BUILD_DEPENDS_IPS="omniti/database/postgresql-$PGVER"
+TAR=gtar
 DEPENDS_IPS="omniti/database/postgresql-$PGVER"
+BUILD_DEPENDS_IPS="$DEPENDS_IPS"
 
 BUILDARCH=64
 PREFIX=/opt/pgsql$PGVER
 PATH=$PREFIX/bin:$PATH
-TAR=gtar
-#BUILDDIR=${PROG}-ver_$VER
 
 configure64() {
     logmsg "--- Skipping configure - not required"
 }
 
 export USE_PGXS=1
-make_prog() {
-    make_param prefix=$PREFIX
-}
 make_install() {
     make_param DESTDIR=${DESTDIR} prefix=$PREFIX install
 }

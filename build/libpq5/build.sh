@@ -28,7 +28,7 @@
 . ../../lib/functions.sh
 
 PROG=postgresql
-VER=9.2.0
+VER=10.0
 VERHUMAN=$VER
 PKG=omniti/library/libpq5
 SUMMARY="PostgreSQL Libs (libpq.so.5)"

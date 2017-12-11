@@ -28,7 +28,7 @@
 . ../../lib/functions.sh
 
 PROG=pglogical
-VER=2.0.0
+VER=2.1.0
 VERHUMAN=$VER
 : ${PGVER:=963}
 PKG=omniti/database/postgresql-${PGVER}/pglogical

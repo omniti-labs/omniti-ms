@@ -28,8 +28,8 @@
 . ../../lib/functions.sh
 
 PROG=postgresql
-# To build another version run "VER=9.2.11 ./build.sh"
-: ${VER:=9.2.23}
+# To build another version run "VER=10.0 ./build.sh"
+: ${VER:=10.0}
 VERHUMAN=$VER
 PKG=omniti/database/postgresql-${VER//./}
 SUMMARY="$PROG - Open Source Database System"
@@ -51,8 +51,10 @@ CONFIGURE_OPTS="--enable-thread-safety
     --enable-debug
     --with-openssl
     --with-libxml
-    --prefix=$PREFIX
-    --with-readline"
+    --with-xslt
+    --with-readline
+    --with-uuid=e2fs
+    --prefix=$PREFIX"
 
 # We don't want the default settings for CONFIGURE_OPTS_64
 CONFIGURE_OPTS_64="--enable-dtrace DTRACEFLAGS=\"-64\""

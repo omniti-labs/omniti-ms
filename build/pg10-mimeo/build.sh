@@ -21,37 +21,33 @@
 # CDDL HEADER END
 #
 #
-# Copyright 2011-2013 OmniTI Computer Consulting, Inc.  All rights reserved.
+# Copyright 2011-2012 OmniTI Computer Consulting, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # Load support functions
 . ../../lib/functions.sh
 
-PROG=pg_repack
-VER=1.4.2
+PROG=mimeo
+VER=1.5.1
 VERHUMAN=$VER
-: ${PGVER:=9510}
-PKG=omniti/database/postgresql-${PGVER}/pg_repack
-SUMMARY="$PROG - Reorganize tables in PostgreSQL databases with minimal locks"
+: ${PGVER:=100}
+PKG=omniti/database/postgresql-${PGVER}/mimeo
+SUMMARY="$PROG - Extension for specialized replication between PostgreSQL instances"
 DESC="$SUMMARY"
 
+TAR=gtar
+DEPENDS_IPS="omniti/database/postgresql-$PGVER  omniti/database/postgresql-${PGVER}/contrib omniti/database/postgresql-${PGVER}/pg_jobmon"
 BUILD_DEPENDS_IPS="omniti/database/postgresql-$PGVER"
-DEPENDS_IPS="omniti/database/postgresql-$PGVER"
 
 BUILDARCH=64
 PREFIX=/opt/pgsql$PGVER
 PATH=$PREFIX/bin:$PATH
-TAR=gtar
-#BUILDDIR=${PROG}-ver_$VER
 
 configure64() {
     logmsg "--- Skipping configure - not required"
 }
 
 export USE_PGXS=1
-make_prog() {
-    make_param prefix=$PREFIX
-}
 make_install() {
     make_param DESTDIR=${DESTDIR} prefix=$PREFIX install
 }

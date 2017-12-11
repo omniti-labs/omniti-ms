@@ -28,7 +28,7 @@
 . ../../lib/functions.sh
 
 PROG=memcached
-VER=1.4.17
+VER=1.5.2
 VERHUMAN=$VER
 PKG=omniti/server/memcached
 SUMMARY="$PROG - free & open source, high-performance, distributed memory object caching system"
