@@ -4,7 +4,7 @@
 . ../../lib/functions.sh
 
 PROG=trafficserver
-VER=6.2.1
+VER=7.1.1
 PKG=omniti/server/trafficserver
 SUMMARY="Apache Traffic Server - HTTP cache"
 DESC="$SUMMARY"
@@ -94,13 +94,13 @@ install_config() {
         $DESTDIR/opt/ts/etc/records.config || \
         logerr "--- failed to install records.config"
 # For ATS 7.x we can use this remap.config.
-#    logcmd cp $SRCDIR/files/remap.config \
-#        $DESTDIR/opt/ts/etc/remap.config || \
-#        logerr "--- failed to install remap.config"
+    logcmd cp $SRCDIR/files/remap.config \
+        $DESTDIR/opt/ts/etc/remap.config || \
+        logerr "--- failed to install remap.config"
 }
 
 make_install() {
-    logmsg "--- make install"
+    logmsg "--- sudo make install"
     logcmd $MAKE DESTDIR=${DESTDIR} \
 	pkgsysuser=$USER \
 	pkgsysgroup=`groups | awk '{print $1;}'` \
