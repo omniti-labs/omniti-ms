@@ -18,3 +18,4 @@ PGVER=$PGVER ../pg96-pg_jobmon/build.sh -b
 PGVER=$PGVER ../pg96-pg_partman/build.sh -b
 VER=$VER ../pg96-plperl/build.sh -d 5.20 -b
 PGVER=$PGVER ../pg96-pg_repack/build.sh -b
+VER=$VER ../pg96-pg_stat_statements/build.sh -b

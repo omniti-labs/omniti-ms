@@ -1,0 +1,11 @@
+--- postgresql-10.1/src/include/storage/lwlock.h.orig	Wed Dec 20 19:31:19 2017
++++ postgresql-10.1/src/include/storage/lwlock.h	Wed Dec 20 19:32:42 2017
+@@ -101,7 +101,7 @@
+ extern PGDLLIMPORT int NamedLWLockTrancheRequests;
+ 
+ /* Names for fixed lwlocks */
+-#include "storage/lwlocknames.h"
++#include "storage/lmgr/lwlocknames.h"
+ 
+ /*
+  * It's a bit odd to declare NUM_BUFFER_PARTITIONS and NUM_LOCK_PARTITIONS
