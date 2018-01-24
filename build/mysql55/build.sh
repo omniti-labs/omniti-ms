@@ -28,7 +28,7 @@
 . ../../lib/functions.sh
 
 PROG=mysql
-VER=5.5.58
+VER=5.5.59
 VERHUMAN=$VER
 
 BUILD_DEPENDS_IPS="omniti/developer/build/cmake system/library/g++-4-runtime system/library/gcc-4-runtime"
