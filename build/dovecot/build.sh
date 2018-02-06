@@ -28,7 +28,7 @@
 . ../../lib/functions.sh
 
 PROG=dovecot
-VER=2.1.12
+VER=2.1.17
 VERHUMAN=$VER
 PKG=omniti/network/dovecot
 SUMMARY="the dovecot IMAP and POP server"
