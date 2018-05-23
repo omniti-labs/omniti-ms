@@ -28,7 +28,7 @@
 . ../../lib/functions.sh
 
 PROG=redis
-VER=3.2.3
+VER=3.2.11
 VERHUMAN=$VER
 PKG=omniti/database/redis
 SUMMARY="Redis is an open source, advanced key-value store."
