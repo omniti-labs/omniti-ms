@@ -28,7 +28,7 @@
 . ../../lib/functions.sh
 
 PROG=libgcrypt
-VER=1.7.7
+VER=1.7.10
 VERHUMAN=$VER
 PKG=omniti/security/libgcrypt
 SUMMARY="libgcrypt - cryptographic library"
