@@ -53,7 +53,7 @@ yajl-ruby-1.1.0
 ipaddress-0.8.0
 ohai-0.6.12
 mime-types-1.18
-rest-client-1.6.7
+rest-client-1.8.0
 bunny-0.7.9
 polyglot-0.3.3
 treetop-1.4.10
@@ -107,7 +107,10 @@ build32(){
       ../${PROG}-${VER}.gem > ${PROG}-${VER}.gemspec || \
       logerr "Failed to extract gemspec of $PROG-$VER"
     logmsg "------ fixing $PROG-$VER dependencies"
+    # Update json gem version to 1.8.6
     sed -e "s|1.6.1|1.8.6|" ${PROG}-${VER}.gemspec >${PROG}-${VER}.gemspec.tmp
+    # Update rest-client version to 1.8.0
+    sed -e "s|1.7.0|1.8.0|" ${PROG}-${VER}.gemspec >${PROG}-${VER}.gemspec.tmp
     mv ${PROG}-${VER}.gemspec.tmp ${PROG}-${VER}.gemspec
     mv ../${PROG}-${VER}.gem ../${PROG}-${VER}.gem.old
     logmsg "------ building gem $PROG-$VER"
