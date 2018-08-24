@@ -68,16 +68,16 @@ ffi-1.9.14
 json-1.8.6"
 
 GEM_BIN=/opt/omni/bin/gem
-RUBY_VER=2.3
+RUBY_VER=2.3.0
 
 build32(){
     logmsg "Building"
     pushd $TMPDIR/$BUILDDIR > /dev/null
-    GEM_HOME=${DESTDIR}${PREFIX}/lib/ruby/gems/${RUBY_VER}
+    GEM_HOME=${DESTDIR}${PREFIX}/lib/amd64/ruby/gems/${RUBY_VER}
     export GEM_HOME
-    GEM_PATH=${DESTDIR}${PREFIX}/lib/ruby/gems/${RUBY_VER}
+    GEM_PATH=${DESTDIR}${PREFIX}/lib/amd64/ruby/gems/${RUBY_VER}
     export GEM_PATH
-    RUBYLIB=${DESTDIR}${PREFIX}/lib/ruby:${DESTDIR}${PREFIX}/lib/site_ruby/${RUBY_VER}
+    RUBYLIB=${DESTDIR}${PREFIX}/lib/amd64/ruby:${DESTDIR}${PREFIX}/lib/amd64/site_ruby/${RUBY_VER}
     export RUBYLIB
     for i in $GEM_DEPENDS; do
       GEM=${i%-[0-9.]*}
@@ -110,7 +110,7 @@ build32(){
     # Update json gem version to 1.8.6
     sed -e "s|1.6.1|1.8.6|" ${PROG}-${VER}.gemspec >${PROG}-${VER}.gemspec.tmp
     # Update rest-client version to 1.8.0
-    sed -e "s|1.7.0|1.8.0|" ${PROG}-${VER}.gemspec >${PROG}-${VER}.gemspec.tmp
+    sed -e "s|< 1.7.0|<= 1.8.0|" ${PROG}-${VER}.gemspec >${PROG}-${VER}.gemspec.tmp
     mv ${PROG}-${VER}.gemspec.tmp ${PROG}-${VER}.gemspec
     mv ../${PROG}-${VER}.gem ../${PROG}-${VER}.gem.old
     logmsg "------ building gem $PROG-$VER"
@@ -128,7 +128,7 @@ build32(){
     logmsg "--- Fixing include paths on binaries"
     for i in $GEM_HOME/bin/*; do
       sed -e "/require 'rubygems'/ a\\
-Gem.use_paths(Gem.dir, [\"/opt/omni/lib/ruby/gems/${RUBY_VER}\"])\\
+Gem.use_paths(Gem.dir, [\"/opt/omni/lib/amd64/ruby/gems/${RUBY_VER}\"])\\
 Gem.refresh\\
 " $i >$i.tmp
       mv $i.tmp $i
@@ -149,7 +149,7 @@ Gem.refresh\\
 patch_ohai() {
     logmsg "patching ohai"
     pushd $TMPDIR/$BUILDDIR > /dev/null
-    logcmd patch -p1 -t -N ${DESTDIR}${PREFIX}/lib/ruby/gems/2.3/gems/ohai-0.6.12/lib/ohai/plugins/solaris2/platform.rb < $SRCDIR/$PATCHDIR/platform.patch || logerr "failed to patch ohai"
+    logcmd patch -p1 -t -N ${DESTDIR}${PREFIX}/lib/amd64/ruby/gems/2.3.0/gems/ohai-0.6.12/lib/ohai/plugins/solaris2/platform.rb < $SRCDIR/$PATCHDIR/platform.patch || logerr "failed to patch ohai"
     popd 
 }
 
@@ -158,8 +158,8 @@ make_bin_symlinks() {
     logcmd mkdir -p ${DESTDIR}${PREFIX}/bin
     pushd ${DESTDIR}${PREFIX}/bin > /dev/null
     # Remove rake rdoc and ri binaries as they are included in ruby-23
-    for c in $(gfind ${DESTDIR}${PREFIX}/lib/ruby/gems/2.3/bin/ -type f -printf "%f " | sed -e 's/ rake rdoc ri//g'); do
-        logcmd ln -s $PREFIX/lib/ruby/gems/2.3/bin/$c $c
+    for c in $(gfind ${DESTDIR}${PREFIX}/lib/amd64/ruby/gems/2.3.0/bin/ -type f -printf "%f " | sed -e 's/ rake rdoc ri//g'); do
+        logcmd ln -s $PREFIX/lib/amd64/ruby/gems/2.3.0/bin/$c $c
     done
     popd > /dev/null
 }
