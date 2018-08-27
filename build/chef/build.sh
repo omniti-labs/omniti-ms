@@ -110,8 +110,7 @@ build32(){
     # Update json gem version to 1.8.6
     sed -e "s|1.6.1|1.8.6|" ${PROG}-${VER}.gemspec >${PROG}-${VER}.gemspec.tmp
     # Update rest-client version to 1.8.0
-    sed -e "s|< 1.7.0|<= 1.8.0|" ${PROG}-${VER}.gemspec >${PROG}-${VER}.gemspec.tmp
-    mv ${PROG}-${VER}.gemspec.tmp ${PROG}-${VER}.gemspec
+    sed -e "s|< 1.7.0|<= 1.8.0|" ${PROG}-${VER}.gemspec.tmp >${PROG}-${VER}.gemspec
     mv ../${PROG}-${VER}.gem ../${PROG}-${VER}.gem.old
     logmsg "------ building gem $PROG-$VER"
     logcmd $GEM_BIN --config-file $SRCDIR/files/gemrc build \
