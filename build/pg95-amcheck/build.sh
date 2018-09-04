@@ -27,47 +27,29 @@
 # Load support functions
 . ../../lib/functions.sh
 
-PROG=haproxy
-VER=1.8.9
+PROG=amcheck
+VER=1.4
 VERHUMAN=$VER
-PKG=omniti/server/haproxy
-SUMMARY="The Reliable, High Performance TCP/HTTP Load Balancer"
+: ${PGVER:=9510}
+PKG=omniti/database/postgresql-${PGVER}/amcheck
+SUMMARY="$PROG - Extension for specialized replication between PostgreSQL instances"
 DESC="$SUMMARY"
 
-DEPENDS_IPS="library/pcre library/security/openssl library/zlib"
-BUILD_DEPENDS_IPS="$DEPENDS_IPS archiver/gnu-tar"
-
-TAR=/usr/gnu/bin/tar
-IGNOREGIT=true
-export IGNOREGIT
-BUILDDIR=${PROG}-${VER}
+TAR=gtar
+DEPENDS_IPS="omniti/database/postgresql-$PGVER  omniti/database/postgresql-${PGVER}/contrib"
+BUILD_DEPENDS_IPS="omniti/database/postgresql-$PGVER"
 
 BUILDARCH=64
+PREFIX=/opt/pgsql$PGVER
+PATH=$PREFIX/bin:$PATH
 
-# There is no configure, only Zuul
 configure64() {
-    true
+    logmsg "--- Skipping configure - not required"
 }
 
-make_prog() {
-    [[ -n $NO_PARALLEL_MAKE ]] && MAKE_JOBS=""
-    logmsg "--- make"
-    logcmd $MAKE $MAKE_JOBS \
-        TARGET=solaris \
-        ARCH=x86_64 \
-        USE_OPENSSL=1 \
-        USE_ZLIB=1 \
-        USE_PCRE=1 \
-        USE_REGPARM=1 \
-	ADDLIB="-lumem" \
-        ADDINC="-I/usr/include/pcre" || \
-        logerr "--- Make failed"
-}
-
+export USE_PGXS=1
 make_install() {
-    logmsg "--- make install"
-    logcmd $MAKE DESTDIR=${DESTDIR} PREFIX=/opt/omni DOCDIR='$(PREFIX)/share/doc/haproxy' install || \
-        logerr "--- Make install failed"
+    make_param DESTDIR=${DESTDIR} prefix=$PREFIX install
 }
 
 init
@@ -75,8 +57,7 @@ download_source $PROG $PROG $VER
 patch_source
 prep_build
 build
-logcmd mkdir -p ${DESTDIR}/lib/svc/manifest/network
-logcmd cp $SRCDIR/files/haproxy.xml ${DESTDIR}/lib/svc/manifest/network/haproxy.xml
+make_isa_stub
 make_package
 clean_up
 
